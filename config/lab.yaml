@@ -28,6 +28,6 @@ pins:
   dolphin_emu: "2609 (pacman, upgraded 2026-10-09 mid-session; was 2606 for verify digests)"
   dolphin_tool: "2609"
   uv: "system (/usr/bin/uv) - required per ADR-0004"
-  pyisotools: null
+  pyisotools: "2.4.7 (venv) - extract+rebuild round-trip proven 2026-10-09 (ADR-0008)"
   cavegen: null
   pikmin2_decomp_commit: null
