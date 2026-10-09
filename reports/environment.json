@@ -1,0 +1,39 @@
+{
+  "captured_utc": "2026-10-09T17:50:00Z",
+  "phase": "P0 environment audit (read-only)",
+  "host": {
+    "hostname": "sandpiper",
+    "kernel": "7.2.2-arch1-1",
+    "arch": "x86_64",
+    "os": "Arch Linux (rolling)",
+    "session": "wayland (wayland-0), DISPLAY=:0 (XWayland available)",
+    "note": "pacman queries are blocked in the agent sandbox; package inventory must come from the owner or from `command -v` probes"
+  },
+  "tools": {
+    "dolphin-emu": "MISSING - install required (owner approval)",
+    "dolphin-tool": "MISSING - provided by separate dolphin-emu-tool package",
+    "flatpak": "/usr/bin/flatpak",
+    "blender": "MISSING - only needed later for Lane C / custom models",
+    "python3": "/usr/bin/python3",
+    "pip": "/usr/bin/pip (project must use venv, never system pip)",
+    "git": "/usr/bin/git",
+    "ninja": "/usr/bin/ninja",
+    "cmake": "/usr/bin/cmake",
+    "java": "/usr/bin/java (needed for CaveGen)",
+    "ffmpeg": "/usr/bin/ffmpeg"
+  },
+  "image": {
+    "path": "/home/david/dev/pikmin-2-edits/pikmin2.iso",
+    "sha256": "5388b54a9c2d156c94bcfa80acd53b513288dc17e88c97a1edfb57ad25db661a",
+    "size_bytes": 995557376,
+    "disc_id": "GPVE01",
+    "disc_revision_byte": "0x00",
+    "internal_name": "PIKMIN2 for GAMECUBE",
+    "region_conclusion": "US retail (GPVE01), pending dolphin-tool header/verify confirmation once installed",
+    "immutable_policy": "gitignored via *.iso; treat as read-only source"
+  },
+  "risks": {
+    "wayland": "screenshot/input strategy must account for Wayland;grim/weston capture paths untested",
+    "dolphin_missing": "no emulator yet; P0 boot gate (G0) blocked on owner-approved pacman install"
+  }
+}
