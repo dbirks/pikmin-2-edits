@@ -25,3 +25,6 @@ node_modules/
 
 # OS/editor noise
 .DS_Store
+
+# Archives stay out of the repo (source pack lives unpacked in docs/)
+*.zip
