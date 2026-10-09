@@ -1,0 +1,29 @@
+# Pikmin 2 AI Lab host configuration (see master spec §4-5)
+image:
+  path: /home/david/dev/pikmin-2-edits/pikmin2.iso
+  sha256: 5388b54a9c2d156c94bcfa80acd53b513288dc17e88c97a1edfb57ad25db661a
+  expected_game_id: GPVE01        # US retail, verified from header 2026-10-09
+  requested_region: auto
+  immutable: true
+
+paths:
+  workspace_original: workspace/original      # gitignored
+  workspace_extracted: workspace/extracted    # gitignored
+  workspace_modified: workspace/modified      # gitignored
+  builds: builds                              # gitignored
+  runs: reports/runs                          # evidence dirs
+  dolphin_agent_profile: runtime/dolphin-agent
+  dolphin_human_profile: runtime/dolphin-human
+
+host:
+  os: arch
+  session: wayland            # screenshots/input must be Wayland-aware
+  emulator_runner: laptop (graphical)
+
+# Pinned after each successful smoke test; empty = not yet proven
+pins:
+  dolphin_emu: null
+  dolphin_tool: null
+  pyisotools: null
+  cavegen: null
+  pikmin2_decomp_commit: null
