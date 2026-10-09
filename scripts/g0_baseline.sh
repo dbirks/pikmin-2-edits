@@ -25,11 +25,16 @@ stop_dolphin() { # $1=pid ; returns 0 if gone
 }
 
 capture_window() { # $1=dest.png ; echo method used
-  local win
-  if command -v xdotool >/dev/null && win=$(xdotool search --name --dolphin "dolphin" 2>/dev/null | tail -1) && [ -n "$win" ]; then
-    xdotool windowraise "$win" 2>/dev/null
-    sleep 1
-    if magick import -window "$win" -silent "$1" 2>/dev/null; then echo "x11-window:$win"; return 0; fi
+  # Verified recipe: render window lives on XWayland (SDL_VIDEODRIVER=x11);
+  # identify it as the dolphin-emu-class window whose title contains '|'.
+  local win id nm
+  for id in $(xdotool search --class dolphin-emu 2>/dev/null); do
+    nm=$(xdotool getwindowname "$id" 2>/dev/null)
+    case "$nm" in *'|'*) win=$id;; esac
+  done
+  if [ -n "$win" ]; then
+    xdotool windowraise "$win" 2>/dev/null; sleep 1
+    if timeout 10 magick import -window "$win" "$1" 2>/dev/null; then echo "x11-window:$win"; return 0; fi
   fi
   flameshot full -p "$1" 2>/dev/null && echo "flameshot-full-fallback" || echo "CAPTURE_FAILED"
 }
@@ -39,7 +44,7 @@ PASS=0
 for i in $(seq "$N"); do
   mkdir -p "$DIR/run$i"
   T0=$(date -u +%FT%TZ)
-  dolphin-emu -u "$PROFILE" -e pikmin2.iso -b -v Vulkan >"$DIR/run$i/stdout.log" 2>&1 &
+  SDL_VIDEODRIVER=x11 dolphin-emu -u "$PROFILE" -e pikmin2.iso -b -v Vulkan >"$DIR/run$i/stdout.log" 2>&1 &
   DPID=$!
   sleep "$DWELL"
   ALIVE=no; kill -0 "$DPID" 2>/dev/null && ALIVE=yes
