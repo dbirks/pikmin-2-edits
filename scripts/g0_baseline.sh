@@ -13,13 +13,12 @@ mkdir -p "$DIR"
 
 sha256() { sha256sum "$1" | cut -d' ' -f1; }
 
-stop_dolphin() { # $1=pid ; returns 0 if gone
-  for sig in TERM TERM KILL; do
-    /bin/kill -"$sig" "$1" 2>/dev/null
-    for _ in $(seq 12); do
-      /bin/kill -0 "$1" 2>/dev/null || return 0
-      sleep 1
-    done
+stop_dolphin() { # $1=pid ; batch-mode disposable instance: SIGKILL is the
+  # only signal that cannot raise a GUI dialog on the owner's screen.
+  /bin/kill -KILL "$1" 2>/dev/null
+  for _ in $(seq 10); do
+    /bin/kill -0 "$1" 2>/dev/null || return 0
+    sleep 1
   done
   return 1
 }
@@ -27,10 +26,14 @@ stop_dolphin() { # $1=pid ; returns 0 if gone
 capture_window() { # $1=dest.png ; echo method used
   # Verified recipe: render window lives on XWayland (SDL_VIDEODRIVER=x11);
   # identify it as the dolphin-emu-class window whose title contains '|'.
-  local win id nm
-  for id in $(xdotool search --class dolphin-emu 2>/dev/null); do
-    nm=$(xdotool getwindowname "$id" 2>/dev/null)
-    case "$nm" in *'|'*) win=$id;; esac
+  local win="" id nm attempt
+  for attempt in 1 2 3 4 5 6; do
+    for id in $(xdotool search --class dolphin-emu 2>/dev/null); do
+      nm=$(xdotool getwindowname "$id" 2>/dev/null)
+      case "$nm" in *'|'*) win=$id;; esac
+    done
+    [ -n "$win" ] && break
+    sleep 5
   done
   if [ -n "$win" ]; then
     xdotool windowraise "$win" 2>/dev/null; sleep 1
