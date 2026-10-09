@@ -25,8 +25,8 @@ host:
 
 # Pinned after each successful smoke test; empty = not yet proven
 pins:
-  dolphin_emu: "2606 (pacman, installed 2026-10-09; boot smoke pending)"
-  dolphin_tool: "2606 (pacman, installed 2026-10-09)"
+  dolphin_emu: "2609 (pacman, upgraded 2026-10-09 mid-session; was 2606 for verify digests)"
+  dolphin_tool: "2609"
   uv: "system (/usr/bin/uv) - required per ADR-0004"
   pyisotools: null
   cavegen: null
