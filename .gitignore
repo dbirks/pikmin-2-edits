@@ -1,0 +1,27 @@
+# --- Proprietary game data: never commit ---
+*.iso
+*.gcm
+*.gcz
+workspace/
+builds/
+patches/generated/
+
+# Emulator profiles, saves, memory cards
+runtime/
+*.gci
+*.raw
+
+# Run evidence (large binaries); summaries may be re-added selectively
+reports/runs/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Node (mcp-dolphin evaluation)
+node_modules/
+
+# OS/editor noise
+.DS_Store
