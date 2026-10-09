@@ -33,3 +33,5 @@ Rules for every agent session:
 | 0001 | Local Dolphin only, hardware track cut  | accepted |
 | 0002 | Target image identified as US GPVE01    | accepted |
 | 0003 | Emulator driver selection deferred to A/B benchmark | proposed |
+| 0004 | uv is the only Python environment/package tool | accepted |
+| 0005 | Source image is NKit-trimmed; repack lane needs standardization | accepted |

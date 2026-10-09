@@ -2,7 +2,10 @@
 image:
   path: /home/david/dev/pikmin-2-edits/pikmin2.iso
   sha256: 5388b54a9c2d156c94bcfa80acd53b513288dc17e88c97a1edfb57ad25db661a
-  expected_game_id: GPVE01        # US retail, verified from header 2026-10-09
+  expected_game_id: GPVE01        # NTSC-U/USA rev 0, confirmed by dolphin-tool 2026-10-09
+  disc_sha1: c5e9fe751731da3db7a103272e6f05eee90fe6e9   # dolphin-tool verify
+  disc_crc32: "3541416b"                                 # dolphin-tool verify
+  nkit_format: true              # trimmed dump; see ADR-0005 before any repack
   requested_region: auto
   immutable: true
 
@@ -22,8 +25,9 @@ host:
 
 # Pinned after each successful smoke test; empty = not yet proven
 pins:
-  dolphin_emu: null
-  dolphin_tool: null
+  dolphin_emu: "2606 (pacman, installed 2026-10-09; boot smoke pending)"
+  dolphin_tool: "2606 (pacman, installed 2026-10-09)"
+  uv: "system (/usr/bin/uv) - required per ADR-0004"
   pyisotools: null
   cavegen: null
   pikmin2_decomp_commit: null

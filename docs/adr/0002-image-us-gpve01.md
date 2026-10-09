@@ -1,7 +1,7 @@
 # ADR-0002: Working image is US retail GPVE01 (rev 0x00)
 
 **Date:** 2026-10-09
-**Status:** accepted (pending `dolphin-tool verify` confirmation)
+**Status:** accepted (dolphin-tool confirmation completed 2026-10-09; see amendment)
 **Context:** Spec forbade assuming a region. Header inspection of the
 owner-provided ISO resolved the question before any tooling was installed.
 **Decision:** All build/asset assumptions target US retail `GPVE01`:
@@ -18,3 +18,8 @@ extracted tree.
 takes an explicit game-ID parameter and must fail loudly on mismatch. Open
 item: overlay `dolphin-tool header/verify` digests (and optionally redump
 hashes) once the package is installed, and record them as an amendment here.
+
+**Amendment (same day):** `dolphin-tool header` → GPVE01, Revision 0,
+NTSC-U/USA. `dolphin-tool verify` → CRC32 3541416b, SHA1
+c5e9fe751731da3db7a103272e6f05eee90fe6e9, flagged **NKit-trimmed format**
+(see ADR-0005 for repack-lane consequences).

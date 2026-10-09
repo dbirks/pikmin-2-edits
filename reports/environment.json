@@ -6,16 +6,17 @@
     "kernel": "7.2.2-arch1-1",
     "arch": "x86_64",
     "os": "Arch Linux (rolling)",
-    "session": "wayland (wayland-0), DISPLAY=:0 (XWayland available)",
+    "session": "GNOME on Wayland (wayland-0), XWayland :0; grim/wlroots capture not applicable",
     "note": "pacman queries are blocked in the agent sandbox; package inventory must come from the owner or from `command -v` probes"
   },
   "tools": {
-    "dolphin-emu": "MISSING - install required (owner approval)",
-    "dolphin-tool": "MISSING - provided by separate dolphin-emu-tool package",
+    "dolphin-emu": "INSTALLED 2026-10-09, Dolphin 2606 (/usr/bin/dolphin-emu)",
+    "dolphin-tool": "INSTALLED 2026-10-09 (/usr/bin/dolphin-tool)",
+    "uv": "INSTALLED 2026-10-09 (/usr/bin/uv) - sole Python env/package tool per ADR-0004",
     "flatpak": "/usr/bin/flatpak",
-    "blender": "MISSING - only needed later for Lane C / custom models",
-    "python3": "/usr/bin/python3",
-    "pip": "/usr/bin/pip (project must use venv, never system pip)",
+    "blender": "MISSING - deliberately deferred until P5/P6 custom model work",
+    "python3": "/usr/bin/python3 (system; projects use uv-managed .venv only)",
+    "pip": "unused - banned by owner policy (ADR-0004)",
     "git": "/usr/bin/git",
     "ninja": "/usr/bin/ninja",
     "cmake": "/usr/bin/cmake",
@@ -29,11 +30,17 @@
     "disc_id": "GPVE01",
     "disc_revision_byte": "0x00",
     "internal_name": "PIKMIN2 for GAMECUBE",
-    "region_conclusion": "US retail (GPVE01), pending dolphin-tool header/verify confirmation once installed",
+    "region_conclusion": "NTSC-U/USA per dolphin-tool header (2026-10-09)",
+    "verify": {
+      "tool": "dolphin-tool verify, Dolphin 2606",
+      "crc32": "3541416b",
+      "sha1": "c5e9fe751731da3db7a103272e6f05eee90fe6e9",
+      "problems": "NKit-trimmed format (Low severity) - see ADR-0005; boot/extract OK, ISO repack lane needs standardization first"
+    },
     "immutable_policy": "gitignored via *.iso; treat as read-only source"
   },
   "risks": {
-    "wayland": "screenshot/input strategy must account for Wayland;grim/weston capture paths untested",
-    "dolphin_missing": "no emulator yet; P0 boot gate (G0) blocked on owner-approved pacman install"
+    "wayland": "screenshot/input strategy on GNOME Wayland: prefer Dolphin internal screenshot + memory-engine/uinput; wltools capture path untested",
+    "pacman_sandbox": "agent cannot query pacman; package state confirmed via command -v and owner report"
   }
 }
