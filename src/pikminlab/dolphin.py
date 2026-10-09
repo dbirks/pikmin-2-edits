@@ -47,9 +47,21 @@ class DolphinSession:
         dest.parent.mkdir(parents=True, exist_ok=True)
         return _sh("magick", "import", "-window", wid, str(dest), timeout=20).returncode == 0
 
+    def memory_read(self, address: int, size: int) -> bytes:
+        import dolphin_memory_engine as dme
+        if not dme.is_hooked():
+            dme.hook()
+        return dme.read_bytes(address, size)
+
     def stop(self) -> None:
         if not self.proc:
             return
+        try:
+            import dolphin_memory_engine as dme
+            if dme.is_hooked():
+                dme.un_hook()
+        except Exception:
+            pass
         try:
             self.proc.kill()  # SIGKILL: cannot be intercepted by dialogs
             self.proc.wait(timeout=10)

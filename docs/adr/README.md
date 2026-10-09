@@ -36,3 +36,4 @@ Rules for every agent session:
 | 0004 | uv is the only Python environment/package tool | accepted |
 | 0005 | Source image is NKit-trimmed; repack lane needs standardization | accepted |
 | 0006 | G0 partial with waived repeats; launch/capture/stop recipe locked | accepted |
+| 0007 | Driver B (stock Dolphin + DME memory + xdotool) proven for state reads | accepted |

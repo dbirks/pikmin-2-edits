@@ -61,6 +61,20 @@ def cmd_probe(args: argparse.Namespace) -> int:
                  input_causes_scene_change=changed)
 
 
+def cmd_state(args: argparse.Namespace) -> int:
+    """Read known emulated-memory facts from a live session (driver-B proof)."""
+    out = []
+    with dolphin.DolphinSession(Path(args.iso)) as ses:
+        wid = ses.window_id(wait_s=args.cap_s // 3)
+        if not wid:
+            return _emit("BLOCKED", error="DRIVER_DISCONNECTED", reason="no render window")
+        did = ses.memory_read(0x80000000, 6)
+        out.append({"addr": "0x80000000", "value": did.decode("ascii", "replace")})
+        ok = did == b"GPVE01"
+    return _emit("PASS" if ok else "FAIL", window=wid, reads=out,
+                 expected="GPVE01", got=did.decode("ascii", "replace"))
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="pikminlab")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -74,6 +88,10 @@ def main(argv=None) -> int:
                     help="comma-separated xdotool keysyms sent in order")
     pp.add_argument("--dwell", type=float, default=3.0)
     pp.add_argument("--cap-s", type=int, default=60, help="hard session cap")
+    ps = sub.add_parser("state")
+    ps.add_argument("iso")
+    ps.add_argument("--cap-s", type=int, default=60)
+    ps.set_defaults(fn=cmd_state)
     args = ap.parse_args(argv)
     return args.fn(args)
 
