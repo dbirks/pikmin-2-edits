@@ -35,3 +35,4 @@ Rules for every agent session:
 | 0003 | Emulator driver selection deferred to A/B benchmark | proposed |
 | 0004 | uv is the only Python environment/package tool | accepted |
 | 0005 | Source image is NKit-trimmed; repack lane needs standardization | accepted |
+| 0006 | G0 partial with waived repeats; launch/capture/stop recipe locked | accepted |

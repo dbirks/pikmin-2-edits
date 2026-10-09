@@ -1,0 +1,23 @@
+[project]
+name = "pikminlab"
+version = "0.1.0"
+description = "Local Dolphin dev loop for Pikmin 2 (GPVE01) modding"
+requires-python = ">=3.11"
+dependencies = [
+  "pyyaml",
+  "pyisotools",
+  "dolphin-memory-engine",
+]
+
+[project.scripts]
+pikminlab = "pikminlab.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pikminlab"]
+
+[dependency-groups]
+dev = ["pytest"]
