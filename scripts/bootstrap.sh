@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 # Bootstrap helper for the Pikmin 2 AI Lab (Arch Linux).
-# The agent sandbox blocks pacman/sudo: run the system install yourself, then
-# re-run this script to provision user-scoped venv deps.
+# System packages are owner-run (agent sandbox blocks pacman/sudo).
+# ALL Python environments and packages go through uv. Never bare pip.
 set -euo pipefail
 
-echo "== System packages (requires your approval, run manually) =="
+echo "== System packages status =="
 cat <<'EOF'
-sudo pacman -Syu
-sudo pacman -S --needed dolphin-emu dolphin-emu-tool git python python-pip ninja cmake base-devel ffmpeg jdk-openjdk
-# optional later: blender, mesa-utils, vulkan-tools, python-evdev
+done 2026-10-09: dolphin-emu, dolphin-emu-tool (Dolphin 2606), base-devel, uv,
+                 git, python, ninja, cmake, java (jdk-openjdk), ffmpeg
+later (only when needed): blender   # P5/P6 custom model + collision work
 EOF
 
-echo "== Python venv (user-scoped, no approval needed) =="
+echo "== Python env via uv (idempotent) =="
 cd "$(dirname "$0")/.."
-python -m venv .venv
-.venv/bin/python -m pip install -U pip
-.venv/bin/python -m pip install pyisotools dolphin-memory-engine pytest pyyaml
+uv venv .venv
+uv pip install --python .venv pyisotools dolphin-memory-engine pytest pyyaml
 
 echo "== Verify =="
 command -v dolphin-emu && command -v dolphin-tool
+uv --version
 .venv/bin/python -c "import pyisotools; print('pyisotools OK')"
-echo "Now run: .venv/bin/python -m pikminlab doctor"
+echo "Next: .venv/bin/python -m pikminlab doctor"
