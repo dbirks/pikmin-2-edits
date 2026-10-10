@@ -1,0 +1,45 @@
+{
+  "compiled_hashes": {
+    "files/user/Abe/Pellet/us/otakara_config.txt": "73cfe4bebce7a73bd246aafcecb30c021be4e9f3ec9546b64c7aff5779118e71",
+    "files/user/Mukki/mapunits/caveinfo/forest_3.txt": "02fc11ea056d2b96ca015f883c9d40fbe30e3e9a47f0e6bef0dd758d31ebc90a"
+  },
+  "design": "design/caves/forest-3-reprise.yaml",
+  "determinism": {
+    "compile_twice_identical": true,
+    "idempotent_on_patched_tree": true,
+    "restore_returns_pristine_bytes": true,
+    "tests": "uv run pytest -q -> 18 passed (2 integration tests run against the real GPVE01 extract)"
+  },
+  "files": [
+    {
+      "after_sha256": "73cfe4bebce7a73bd246aafcecb30c021be4e9f3ec9546b64c7aff5779118e71",
+      "before_sha256": "36de6f3b05065913464d256bd2745a2ef3a6948f96f0729c6b0ee51771b7f24a",
+      "delta_bytes": -4,
+      "path": "files/user/Abe/Pellet/us/otakara_config.txt"
+    },
+    {
+      "after_sha256": "02fc11ea056d2b96ca015f883c9d40fbe30e3e9a47f0e6bef0dd758d31ebc90a",
+      "before_sha256": "a202d4a510704e280ffae9e351d4b17493e0bca781e75eed2292565436ae17f5",
+      "delta_bytes": 22,
+      "path": "files/user/Mukki/mapunits/caveinfo/forest_3.txt"
+    }
+  ],
+  "note": "Hashes, sizes and rule names only \u2014 no disc bytes enter git (AGENTS.md).",
+  "slot": {
+    "area": "forest",
+    "caveinfo": "files/user/Mukki/mapunits/caveinfo/forest_3.txt",
+    "entrance_distance_from_spawn": 1245.2,
+    "entrance_pos": [
+      245.330322,
+      46.056816,
+      1402.290283
+    ],
+    "floors": 7,
+    "stage_id": "f_03"
+  },
+  "validator": {
+    "checks": 62,
+    "design_applied": true,
+    "problems": []
+  }
+}

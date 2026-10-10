@@ -47,3 +47,4 @@ Rules for every agent session:
 | 0015 | uinput module (not permissions) was the blocker; Vulkan cannot present under Xvfb; scene-diff is not an input oracle | accepted |
 | 0016 | Cave data survey: real paths under `files/`, header prefix is not a row count, edits are in-place patches | accepted |
 | 0017 | Game-level input proven by a categorical scene-state change (23 → 97,901 colours); per-button and stick still open | accepted |
+| 0018 | Cave compiler amendments: prefix = floor count, unbraced table rows, latin-1 byte-safe edits, f007 = the exit | accepted |

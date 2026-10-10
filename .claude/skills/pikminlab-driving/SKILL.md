@@ -155,3 +155,23 @@ after ~5 s before reacting.
 ## Open questions (update this skill when answered)
 - RAM position/symbol addresses (needs projectPiki decomp build).
 - Button(s) that skip story cutscenes wholesale vs per-line A.
+
+## Authoring/compiling a cave (ADR-0018)
+```bash
+uv run pikminlab cave compile design/caves/forest-3-reprise.yaml   # hashes only, no writes
+uv run pikminlab cave apply     design/caves/forest-3-reprise.yaml # backs up pristine bytes first
+uv run pikminlab cave validate  design/caves/forest-3-reprise.yaml # 62 checks; says design_applied
+uv run pikminlab cave restore   design/caves/forest-3-reprise.yaml # byte-identical undo
+```
+- Day-1 (`forest`) spawn is `stages.txt start`; the 4 entrances in
+  `Abe/map/forest/defaultgen.txt` sit 1245 / 1741 / 2092 / 2654 units away —
+  f_03 (`forest_3.txt`, 7 floors) is the reuse target. Entrance positions are the
+  only way in: adding one means binary actor edits, so reuse.
+- `f007`=return fountain is the **exit**; never let a compile remove the last one.
+- Capacities (`f002/f003/f004/f014`) must be ≥ each table's `# num` (true on all
+  328 vanilla floors). `f005` is NOT the units file's room count.
+- Edit text data through latin-1, never shift_jis round-trip. `cave apply` keeps
+  pristine copies in `workspace/cave-patches/<stem>/orig/`; restore, don't re-extract.
+- Room *connectivity* is not statically checkable yet (door block length follows
+  `num_doors`): prove descent/exit in-game at t5.
+

@@ -1,0 +1,18 @@
+#
+2	# size of configs
+{
+	name		synth_treasure
+	archive		synth_treasure.szs
+	bmd		synth_treasure.bmd
+	radius		35
+	height		23
+	money		40
+}
+{
+	name		alt_model
+	archive		alt_model.szs
+	bmd		alt_model.bmd
+	radius		35
+	height		25
+	money		90
+}

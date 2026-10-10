@@ -19,6 +19,7 @@ test fixture is a synthetic file authored to the same grammar.
 """
 from __future__ import annotations
 import json
+import re
 from pathlib import Path
 
 CAVEINFO_REL = Path("files/user/Mukki/mapunits/caveinfo")
@@ -158,11 +159,26 @@ def parse_blocks(raw: bytes) -> list[dict]:
         if m and not line.strip().startswith("{"):
             cur = {"name": m.group("name"),
                    "declared": int(m.group("prefix")) if m.group("prefix") else None,
-                   "raw_header": line, "entries": []}
+                   "raw_header": line, "entries": [], "rows": []}
             blocks.append(cur)
             continue
         stripped = line.strip()
-        if cur is None or not stripped.startswith("{") or "}" not in stripped:
+        if cur is None:
+            continue
+        if not stripped:
+            continue
+        if not stripped.startswith("{"):
+            # TekiInfo/ItemInfo/GateInfo/CapInfo rows are NOT braced:
+            #   2 	# num / haniwa 10 	# weight / 0 	# captype
+            # The first version of this parser only accepted `{key}` lines, so it
+            # reported every ItemInfo as empty and "32 caves have no floors" — both
+            # wrong (corrected in ADR-0018). Unbraced rows are kept verbatim.
+            if stripped in ("{", "}"):
+                continue
+            body, _, comment = stripped.partition("#")
+            cur["rows"].append({"text": body.strip(), "comment": comment.strip(), "raw": line})
+            continue
+        if "}" not in stripped:
             continue
         key = stripped.split("}")[0][1:].strip()
         body = stripped.split("}", 1)[1]
@@ -247,3 +263,52 @@ def parse_units(raw: bytes) -> dict:
         if cur is not None:
             cur.append(s.split("#")[0].strip())
     return {"declared": declared, "rooms": rooms}
+
+
+ENTRANCE = re.compile(r"\{cave\}\s*# item id\s*\n[^\n]*# rotation[^\n]*\n[^\n]*\n"
+                      r"\s*(?P<info>\S+\.txt)\s*\n\s*(?P<units>\S+\.txt)[^\n]*\n\s*\{(?P<sid>[^}]+)\}")
+POS = re.compile(r"(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+# pos")
+LABEL = re.compile(r"^# (\S+)", re.M)
+
+
+def course_starts(raw: bytes) -> dict[str, tuple[float, float, float]]:
+    """`start` position per course from `user/Abe/stages.txt` (5 courses).
+
+    The Day-1 spawn is the `forest` course start; distances to cave entrances are
+    computed from here rather than eyeballed, because this agent has no vision."""
+    out = {}
+    for m in re.finditer(r"name\s+(\S+)", raw.decode("shift_jis", "replace")):
+        tail = raw.decode("shift_jis", "replace")[m.end():m.end() + 1200]
+        s = re.search(r"^\s*start\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)", tail, re.M)
+        if s:
+            out[m.group(1)] = (float(s.group(1)), float(s.group(2)), float(s.group(3)))
+    return out
+
+
+def cave_entrances(raw: bytes) -> list[dict]:
+    """Cave-entrance actors in an area's `defaultgen.txt`.
+
+    Each block carries the entrance position, the caveinfo file it opens, its
+    units file and the `{f_NN}` id used by stages.txt. This is the only place a
+    cave can be reached without debug warps, so the design step must reuse one of
+    these positions — adding an entrance means editing binary actor data.
+    """
+    text = raw.decode("shift_jis", "replace")
+    out = []
+    for m in ENTRANCE.finditer(text):
+        window = text[max(0, m.start() - 600):m.start()]
+        pos = list(POS.finditer(window))
+        labels = list(LABEL.finditer(window))
+        out.append({"label": labels[-1].group(1) if labels else "?",
+                    "pos": tuple(float(x) for x in pos[-1].groups()) if pos else None,
+                    "caveinfo": m.group("info"), "units": m.group("units"),
+                    "stage_id": m.group("sid")})
+    return out
+
+
+def nearest_entrances(raw: bytes, spawn: tuple[float, float, float]) -> list[dict]:
+    import math
+    ents = cave_entrances(raw)
+    for e in ents:
+        e["dist"] = (round(math.dist(e["pos"], spawn), 1) if e["pos"] else None)
+    return sorted(ents, key=lambda e: (e["dist"] is None, e["dist"]))

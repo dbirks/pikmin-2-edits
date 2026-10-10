@@ -139,6 +139,48 @@ def _drive(args: argparse.Namespace) -> int:
         return 1
 
 
+def cmd_cave(args: argparse.Namespace) -> int:
+    """Author-side cave work: compile a design into the extract tree, validate, undo.
+
+    Everything here is data-lane and reversible: `apply` backs up pristine bytes
+    under workspace/cave-patches/, `restore` puts them back. Nothing touches the ISO.
+    """
+    import json
+    from . import cavebuild
+    root = Path(args.root)
+    design = cavebuild.load(Path(args.design))
+    design["_stem"] = Path(args.design).stem
+    if not root.is_dir():
+        return _emit("BLOCKED", reason=f"extract tree missing: run `pikminlab extract` first ({root})")
+    if args.act == "compile":
+        patches = cavebuild.compile_design(design, root)
+        out = {k: {"sha256": cavebuild.sha256(v), "bytes": len(v)} for k, v in patches.items()}
+        if args.out:
+            Path(args.out).write_bytes(next(iter(patches.values())))
+        return _emit("PASS", design=str(args.design), patches=out)
+    if args.act == "validate":
+        problems = cavebuild.validate(design, root)
+        bad = [p for p in problems if not p["ok"]]
+        # validate() reads the TREE. If the design is not applied, its own expects
+        # (e.g. treasure totals) fail for that reason alone — say so instead of
+        # letting a human read "5 != 6" as a data bug.
+        want = cavebuild.compile_design(design, root)
+        applied = all((root / k).read_bytes() == v for k, v in want.items())
+        return _emit("PASS" if not bad else "FAIL", checks=len(problems), problems=bad,
+                     design_applied=applied,
+                     hint=None if applied else "design not applied to the tree; run `pikminlab cave apply`")
+    if args.act == "apply":
+        patches = cavebuild.compile_design(design, root)
+        man = cavebuild.apply_patches(root, patches, design["_stem"])
+        problems = [p for p in cavebuild.validate(design, root) if not p["ok"]]
+        return _emit("PASS" if not problems else "FAIL",
+                     manifest=str(cavebuild.BACKUP_ROOT / design["_stem"] / "manifest.json"),
+                     files=man["files"], problems=problems)
+    if args.act == "restore":
+        return _emit("PASS", restored=cavebuild.restore(root, design["_stem"]))
+    return 1
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="pikminlab")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -163,6 +205,13 @@ def main(argv=None) -> int:
     sv.add_argument("iso"); sv.add_argument("--port", type=int, default=38471)
     sv.add_argument("--idle", type=float, default=300)
     sv.set_defaults(fn=cmd_serve)
+    pc = sub.add_parser("cave")
+    pc.add_argument("act", choices=["compile", "validate", "apply", "restore"])
+    pc.add_argument("design")
+    pc.add_argument("--root", default="workspace/extracted/root")
+    pc.add_argument("--out", default=None)
+    pc.set_defaults(fn=cmd_cave)
+
     dv = sub.add_parser("drive")
     dv.add_argument("act", choices=["state", "shot", "input", "stick", "read", "stop"])
     dv.add_argument("--port", type=int, default=38471)

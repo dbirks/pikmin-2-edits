@@ -63,6 +63,21 @@ Room layouts (`f008` targets) live in `files/user/Mukki/mapunits/units/*.txt`:
 room type, flags, num doors, index, dir/offs/wpindex, door links). Here the
 header count does match the records (27/27 in `all_units_tsuchi.txt`).
 
+## Corrections after authoring the first cave (ADR-0018)
+
+Two statements above were artifacts of a parser that only accepted braced rows:
+* the header prefix **is** meaningful — it is the cave's **floor count**
+  (forest_1..4: 5/5, 5/5, 7/7, 7/7 blocks); a *floor* is one whole `FloorInfo`
+  block of ~18 fields, not one row;
+* `TekiInfo`/`ItemInfo`/`GateInfo`/`CapInfo` rows are **unbraced**
+  (`haniwa 10 \t# weight`), so "no file has a non-empty ItemInfo" and "32 files
+  have no floors" were both false. forest_3 has 5 treasures of its own.
+* `f002/f003/f004/f014` are capacities and each table's `# num` is ≤ them on all
+  328 vanilla floors; `f007` (帰還噴水) is the cave exit; `f000/f001` give the
+  floor ladder `0..n-1`.
+* Edit these files through **latin-1**: Shift-JIS decode/`errors=replace`/re-encode
+  destroyed 5 850 bytes of `otakara_config.txt` on the first try.
+
 ## Rules the compile step must respect (from AGENTS.md + this survey)
 
 1. Reuse an existing slot; do not mint new cave IDs or resources yet.

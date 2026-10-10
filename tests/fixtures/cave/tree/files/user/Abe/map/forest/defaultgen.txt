@@ -1,0 +1,18 @@
+# forest_synth
+{
+	{v0.1} 	# version
+	0 	# reserved
+	0 	# respawn
+	0 0 0 	# name bytes
+	0.000000 0.000000 0.000000 	# pos
+	0 0 0 	# offset
+	{item} {0002} 	# cave
+	{
+		{cave} 	# item id
+		0.000000 0.000000 0.000000 	# rotation
+		{0002} 	# item local version
+		synthetic_cave.txt 
+		units.txt 
+		{f_99} 	# id (for stages.txt)
+	}
+}

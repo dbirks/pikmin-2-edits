@@ -1,0 +1,70 @@
+# CaveInfo
+{
+	{c000} 4 34 	# やごと（地下）
+	{_eof} 
+}
+2 # FloorInfo
+{
+	{f000} 4 0 	# 階はじ
+	{f001} 4 0 	# 階おわり
+	{f002} 4 3 	# 敵最大数
+	{f003} 4 0 	# アイテム最大数
+	{f004} 4 0 	# ゲート最大数
+	{f014} 4 100 	# キャップ最大数
+	{f005} 4 2 	# ルーム数
+	{f007} 4 0 	# 帰還噴水
+	{f008} -1 synthetic_units.txt 	# 使用ユニット
+	{f009} -1 synthetic_light.ini 	# 使用ライト
+	{f00A} -1 none 	# VRBOX
+	{f015} 4 1 	# Version
+	{_eof} 
+}
+# TekiInfo
+{
+	0 	# num
+}
+# ItemInfo
+{
+	0 	# num
+}
+# GateInfo
+{
+	0 	# num
+}
+# CapInfo
+{
+	0 	# num
+}
+# FloorInfo
+{
+	{f000} 4 1 	# 階はじ
+	{f001} 4 1 	# 階おわり
+	{f002} 4 3 	# 敵最大数
+	{f003} 4 1 	# アイテム最大数
+	{f004} 4 0 	# ゲート最大数
+	{f014} 4 100 	# キャップ最大数
+	{f005} 4 2 	# ルーム数
+	{f007} 4 1 	# 帰還噴水
+	{f008} -1 synthetic_units.txt 	# 使用ユニット
+	{f009} -1 synthetic_light.ini 	# 使用ライト
+	{f00A} -1 none 	# VRBOX
+	{f015} 4 1 	# Version
+	{_eof} 
+}
+# TekiInfo
+{
+	0 	# num
+}
+# ItemInfo
+{
+	1 	# num
+	synth_treasure 10 	# weight
+}
+# GateInfo
+{
+	0 	# num
+}
+# CapInfo
+{
+	0 	# num
+}

@@ -1,0 +1,68 @@
+# design/caves/forest-3-reprise.yaml
+# Authored cave for the first playable vertical slice (task t3).
+#
+# Slot reuse, per AGENTS.md: we do NOT mint a cave ID or add actor data. The
+# entrance actor already exists in the Day-1 area, so this file only restates the
+# slot it is reusing (the compiler refuses if it moved) and patches text data.
+#
+# Why this slot (measured, not assumed — see design/caves/inventory.md):
+#   * `forest` is the Day-1 course; its `start` in stages.txt is
+#     (381.724, -70.880, 2634.461).
+#   * forest has exactly 4 cave entrances; f_03 is the nearest at 1245.2 units
+#     (next: f_02 1741.4, f_04 2092.0, f_01 2653.7).
+#   * forest_3.txt already declares 7 floors with existing room sets, so
+#     multi-floor descent needs no new resources.
+
+slot:
+  stage_id: f_03                 # id used by stages.txt / defaultgen.txt
+  area: forest                   # Day-1 course
+  entrance_pos: [245.330322, 46.056816, 1402.290283]
+  entrance_distance_from_spawn: 1245.2
+  caveinfo: files/user/Mukki/mapunits/caveinfo/forest_3.txt
+  floors: 7                      # unchanged: raising it would need new units files
+
+# Floors are 0-based, matching FloorInfo block order in the file.
+floors:
+  - floor: 0
+    # Vanilla: f003 (アイテム最大数 / item capacity) = 0, ItemInfo num = 0.
+    # Raise capacity and place an existing treasure here, so floor 1 visibly has
+    # a treasure where vanilla has none. Only models that already exist on the
+    # disc may be named (haniwa = Haniwa Ring, radius 25, money 250).
+    item_capacity: 1
+    items:
+      - name: haniwa
+        weight: 10
+    # Visible structural marker so the run can confirm which build it booted:
+    # 帰還噴水 (return fountain) on, exactly as vanilla already does on floor 7.
+    return_fountain: true
+    # Brightness signature: normal_light_lv0.ini -> lv3 (both exist under
+    # files/user/Abe/cave/). Chosen because it cannot alter collision physics.
+    light: normal_light_lv3.ini
+
+  - floor: 2
+    # Vanilla floor 3 holds `makigai` (Whistle, radius 35, height 23, money 40).
+    # Re-skin that existing slot by pointing only its MODEL fields at another
+    # existing treasure of matching size (ahiru / Rubber Duck, radius 35,
+    # height 25). Name, dictionary, money and physics fields stay makigai's, so
+    # the game still credits Makigai — the anomaly is visual, which is what the
+    # anomaly audit is meant to catch.
+    items:
+      - name: makigai
+        weight: 10
+
+reskin:
+  # Keyed by otakara `name`; only these fields may be redirected.
+  - treasure: makigai
+    region: us
+    archive: ahiru.szs
+    bmd: ahiru.bmd
+    keep: [name, radius, height, money, unique, pikicountmax]
+
+# Untouched by design, asserted by the validator rather than trusted:
+#   - floors 1,3,4,5,6 item tables (diamond_blue_l, dia_a_green, saru_head …)
+#   - every f008 units reference (room graph, doors, links)
+#   - the TekiInfo/CapInfo/GateInfo tables and all BGM data
+expect:
+  treasures_total: 6             # 5 vanilla + the one placed on floor 1
+  floors_unchanged: true
+  bgm_list_unchanged: true

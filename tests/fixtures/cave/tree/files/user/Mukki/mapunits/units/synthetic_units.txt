@@ -1,0 +1,28 @@
+#
+#	units definition file
+#
+2 	# number of units
+# room_a
+{
+	1 	# version
+	room_a 	# foldername
+	1 1 	# dX/dZ
+	0 	# room type
+	0 0 	# room Flags
+	1 	# num doors
+	0 	# index
+	0 0 0 	# dir/offs/wpindex
+	1 	# door links
+}
+# room_b
+{
+	1 	# version
+	room_b 	# foldername
+	1 1 	# dX/dZ
+	0 	# room type
+	0 0 	# room Flags
+	1 	# num doors
+	0 	# index
+	1 0 0 	# dir/offs/wpindex
+	0 	# door links
+}
