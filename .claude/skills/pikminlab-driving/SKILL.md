@@ -56,7 +56,17 @@ magick compare -metric RMSE -resize 320x240! a.png b.png null:   # 1-2% = UI pul
 Freshness = different sha256 **and** both frames `lit`: a hash-only check passed
 bogus "fresh" captures of a still-black framebuffer.
 
-## Proving input landed (ADR-0015)
+## Proving input landed (ADR-0015/0017)
+- **Categorical beats differential.** Compare a frame before any input with one
+  after the route: distinct-colour count collapsing (≈256 = text screen) or
+  exploding (≈100k = full scene) is proof; whole-frame RMSE between two live
+  frames is not (dwell reached 0.127, larger than a press delta of 0.122).
+- Use `pikminlab.frames` (`tile_means/stats/lit/rmse/reversal_report`) — not
+  per-script copies. `tile_means` must accept `gray(` as well as `srgb(` and it
+  raises on a short parse; an empty tile list once silently turned a good run
+  into an unexplained FAIL.
+- Screenshots land in the *daemon's* `reports/runs/<ts>-serve/` dir, not the
+  probe's dir; `result.json` paths are the authority.
 - **Device-level (fast, reliable):** `scripts/pad_visibility_oracle.py` reads
   Dolphin's own `/proc/<pid>/fd` — SDL opens every `/dev/input/event*`, so if our
   pad's `eventNN` (resolved from `/proc/bus/input/devices` by device name;
