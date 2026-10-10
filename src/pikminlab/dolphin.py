@@ -45,6 +45,21 @@ def _sh(*cmd: str, timeout: float = 15, env=None, **kw) -> subprocess.CompletedP
     return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, env=env, **kw)
 
 
+def default_video_backend() -> str:
+    """Dolphin `-v` backend; override with PIKMINLAB_VIDEO_BACKEND (ADR-0013).
+    Headless candidates to A/B are Vulkan (ANV or lavapipe) and OpenGL+llvmpipe."""
+    return os.environ.get("PIKMINLAB_VIDEO_BACKEND", "Vulkan")
+
+
+def display_env() -> dict:
+    """Environment for an agent-owned Dolphin. On the laptop the render target
+    was XWayland at :0 (ADR-0006); a headless host has no :0, so `xvfb-run`
+    exports its own DISPLAY and we must inherit it instead of clobbering it
+    (ADR-0013). PIKMINLAB_DISPLAY pins a display explicitly."""
+    disp = os.environ.get("PIKMINLAB_DISPLAY") or os.environ.get("DISPLAY") or ":0"
+    return {**os.environ, "SDL_VIDEODRIVER": "x11", "DISPLAY": disp}
+
+
 def find_render_window() -> str:
     """The XWayland render window: dolphin-emu-class window whose title
     contains '|' (ADR-0006/0011 recipe). Returns '' if not present."""
@@ -61,16 +76,15 @@ class DolphinSession:
     """One batch-mode instance with guaranteed teardown. Use as a context
     manager: the owner never sees a stranded window."""
 
-    def __init__(self, iso: Path, video_backend: str = "Vulkan", pad: bool = True):
+    def __init__(self, iso: Path, video_backend: str | None = None, pad: bool = True):
         self.iso = iso
-        self.video_backend = video_backend
+        self.video_backend = video_backend or default_video_backend()
         self.use_pad = pad
         self.proc: subprocess.Popen | None = None
         self.pad = None
 
     def start(self) -> "DolphinSession":
-        env = {**os.environ, "SDL_VIDEODRIVER": "x11", "DISPLAY": ":0",
-               "SDL_GAMECONTROLLERCONFIG": GC_MAPPING + "\n"}
+        env = {**display_env(), "SDL_GAMECONTROLLERCONFIG": GC_MAPPING + "\n"}
         if self.use_pad:
             from .vpad import VirtualPad
             self.pad = VirtualPad()
@@ -141,9 +155,57 @@ class DolphinSession:
     def __exit__(self, *exc): self.stop()
 
 
+REQUIRED_TOOLS = ("dolphin-emu", "dolphin-tool", "xdotool", "magick")
+# Reported, never fatal: flameshot was a laptop-only capture fallback; java is
+# P3 CaveGen-only; xvfb-run/Xvfb matter only on a host with no display.
+OPTIONAL_TOOLS = ("flameshot", "java", "ffmpeg", "xvfb-run", "Xvfb")
+UINPUT = Path("/dev/uinput")
+
+
+def _run_probe(tool: str) -> dict:
+    """PATH presence alone lies on Arch: a package pulled from a synced DB but
+    run against an un-upgraded glibc/ffmpeg exists and then dies at exec
+    ('error while loading shared libraries', GLIBC_x not found). Actually exec
+    the emulator binaries so `doctor` catches the partial-upgrade case (ADR-0013)."""
+    path = shutil.which(tool)
+    if not path:
+        return {"path": None, "runnable": False, "error": "NOT_INSTALLED"}
+    try:
+        r = _sh(tool, "--version", timeout=30)
+    except Exception as exc:  # pragma: no cover - diagnostics only
+        return {"path": path, "runnable": False, "error": str(exc)[:160]}
+    if r.returncode != 0:
+        first = next((ln.strip() for ln in (r.stderr + r.stdout).splitlines() if ln.strip()), "")
+        return {"path": path, "runnable": False, "error": (first or f"exit {r.returncode}")[:200]}
+    out = (r.stdout + r.stderr).strip().splitlines()
+    return {"path": path, "runnable": True, "version": out[-1][:80] if out else None}
+
+
 def doctor_report() -> dict:
-    tools = {t: shutil.which(t) for t in
-             ("dolphin-emu", "dolphin-tool", "xdotool", "flameshot", "magick", "java", "ffmpeg")}
-    ver = _sh("dolphin-emu", "--version").stdout.strip().splitlines()[-1:] or [None]
-    return {"tools": tools, "dolphin_version": ver[0],
-            "profile_exists": PROFILE.is_dir()}
+    tools = {t: shutil.which(t) for t in REQUIRED_TOOLS + OPTIONAL_TOOLS}
+    probes = {t: _run_probe(t) for t in ("dolphin-emu", "dolphin-tool")}
+    disp = os.environ.get("DISPLAY")
+    try:
+        free_gb = round(shutil.disk_usage(str(REPO)).free / 2**30, 2)
+    except OSError:
+        free_gb = None
+    uinput = {"path": str(UINPUT), "present": UINPUT.exists(),
+              "writable": UINPUT.exists() and os.access(UINPUT, os.W_OK)}
+    try:
+        st = UINPUT.stat()
+        uinput.update({"mode": oct(st.st_mode & 0o777), "gid": st.st_gid})
+    except OSError:
+        pass
+    ptrace = None
+    try:
+        ptrace = Path("/proc/sys/kernel/yama/ptrace_scope").read_text().strip()
+    except OSError:
+        pass
+    return {"tools": tools, "binaries": probes, "dolphin_version": probes["dolphin-emu"].get("version"),
+            "profile_exists": PROFILE.is_dir(),
+            "display": {"DISPLAY": disp, "wayland": os.environ.get("WAYLAND_DISPLAY"),
+                        "session_type": os.environ.get("XDG_SESSION_TYPE"),
+                        "headless": not disp and not os.environ.get("WAYLAND_DISPLAY"),
+                        "xvfb_run": bool(shutil.which("xvfb-run"))},
+            "uinput": uinput, "yama_ptrace_scope": ptrace,
+            "disk_free_gb": free_gb, "repo": str(REPO)}

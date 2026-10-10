@@ -14,6 +14,23 @@ description: Use whenever you need to drive Pikmin 2 live in Dolphin for explora
   must be empty. Host quirk: use `/bin/kill -KILL` (the agent shell's
   `kill` builtin silently fails).
 
+## Headless launch (no monitor, no display server) — ADR-0013
+```bash
+# Inherit-the-display rule: never hardcode :0 again. Either wrap the daemon:
+DISPLAY= PIKMINLAB_XVFB=1 PIKMINLAB_VIDEO_BACKEND=Vulkan \
+  uv run pikminlab serve <iso> --idle 120
+# or drive an Xvfb you manage yourself: xvfb-run -a -s "-screen 0 1280x960x24" ...
+```
+- `serve` with `PIKMINLAB_XVFB=1` wraps only the *emulator child*, so the
+  daemon's HTTP port stays on the parent env and the child's exported `DISPLAY`
+  still reaches `xdotool`/`magick import` for capture.
+- **Before any of this works on a fresh Arch box**: `dolphin-emu` must exec.
+  `error while loading shared libraries: libavformat.so.63` + `GLIBC_2.44 not
+  found` = partial upgrade; owner runs `sudo pacman -Syu`. PATH presence is NOT
+  health — `doctor` exec-probes it.
+- Software Vulkan (lavapipe) has no Arch package; on an Intel/AMD iGPU host
+  install `vulkan-intel`/`vulkan-radeon` and try `-v Vulkan`, else `-v OpenGL`.
+
 ## Session lifecycle
 ```bash
 nohup uv run pikminlab serve builds/pikmin2-modified.iso --idle 300 >/tmp/serve.out 2>&1 &
@@ -30,6 +47,9 @@ Viewing screenshots: downscale first, `ffmpeg -i shot.png -vf scale=900:-1 -q:v 
 
 ## Verified input stack (do not re-derive; ADR-0011)
 - uinput pad `pikminlab-virtual-pad` (owner is in `input` group; no sudo).
+  **Headless hosts are NOT by default**: `/dev/uinput` is `0600 root:root` and
+  systemd ships no group rule for it — needs an owner udev rule + `input`
+  membership (ADR-0013). `pikminlab doctor` reports `UINPUT_NOT_WRITABLE`.
 - Dolphin 2609 needs **SDL3 gamepad** visibility: `SDL_GAMECONTROLLERCONFIG`
   mapping is exported by the daemon (see `pikminlab.serve`).
 - GCPadNew.ini device string MUST be `SDL/0/pikminlab-virtual-pad` with

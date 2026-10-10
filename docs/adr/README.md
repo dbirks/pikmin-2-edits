@@ -42,3 +42,4 @@ Rules for every agent session:
 | 0010 | Data build lane proven: patch -> repack -> boot | accepted |
 | 0011 | Candidate B input fully proven (uinput + SDL3 gamepad recipe) | accepted |
 | 0012 | G2 fully closed: single-asset change observed in-game | accepted |
+| 0013 | Headless host probe: broken Dolphin libs + uinput perms block runtime; DISPLAY/xvfb plumbing added | proposed |

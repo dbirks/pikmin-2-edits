@@ -1,0 +1,124 @@
+{
+ "status": "FAIL",
+ "ts": "2026-10-10T03:38:39.000163+00:00",
+ "tools": {
+  "dolphin-emu": "/usr/bin/dolphin-emu",
+  "dolphin-tool": "/usr/bin/dolphin-tool",
+  "xdotool": "/usr/bin/xdotool",
+  "magick": "/usr/bin/magick",
+  "flameshot": null,
+  "java": "/usr/bin/java",
+  "ffmpeg": "/usr/bin/ffmpeg",
+  "xvfb-run": "/usr/bin/xvfb-run",
+  "Xvfb": "/usr/bin/Xvfb"
+ },
+ "binaries": {
+  "dolphin-emu": {
+   "path": "/usr/bin/dolphin-emu",
+   "runnable": false,
+   "error": "dolphin-emu: error while loading shared libraries: libavformat.so.63: cannot open shared object file: No such file or directory"
+  },
+  "dolphin-tool": {
+   "path": "/usr/bin/dolphin-tool",
+   "runnable": false,
+   "error": "dolphin-tool: error while loading shared libraries: libavformat.so.63: cannot open shared object file: No such file or directory"
+  }
+ },
+ "dolphin_version": null,
+ "profile_exists": true,
+ "display": {
+  "DISPLAY": null,
+  "wayland": null,
+  "session_type": null,
+  "headless": true,
+  "xvfb_run": true
+ },
+ "uinput": {
+  "path": "/dev/uinput",
+  "present": true,
+  "writable": false,
+  "mode": "0o600",
+  "gid": 0
+ },
+ "yama_ptrace_scope": "1",
+ "disk_free_gb": 3.27,
+ "repo": "/home/david/dev/pikmin-2-edits",
+ "problems": [
+  {
+   "code": "TOOL_BROKEN",
+   "tool": "dolphin-emu",
+   "detail": "dolphin-emu: error while loading shared libraries: libavformat.so.63: cannot open shared object file: No such file or directory",
+   "hint": "Arch partial upgrade: owner runs 'sudo pacman -Syu'"
+  },
+  {
+   "code": "TOOL_BROKEN",
+   "tool": "dolphin-tool",
+   "detail": "dolphin-tool: error while loading shared libraries: libavformat.so.63: cannot open shared object file: No such file or directory",
+   "hint": "Arch partial upgrade: owner runs 'sudo pacman -Syu'"
+  },
+  {
+   "code": "UINPUT_NOT_WRITABLE",
+   "detail": {
+    "path": "/dev/uinput",
+    "present": true,
+    "writable": false,
+    "mode": "0o600",
+    "gid": 0
+   },
+   "hint": "owner: udev rule KERNEL==\"uinput\", GROUP=\"input\", MODE=\"0660\" + usermod -aG input"
+  }
+ ],
+ "warnings": [
+  {
+   "code": "LOW_DISK",
+   "disk_free_gb": 3.27,
+   "hint": "extract+repack lane needs ~3x ISO size"
+  }
+ ],
+ "packages": [
+  "dolphin-emu 1:2609-1",
+  "dolphin-emu-tool 1:2609-1",
+  "glibc 2.43+r5+g856c426a7534-1",
+  "gcc-libs 15.2.1+r604+g0b99615a8aef-1",
+  "ffmpeg 2:8.1-3",
+  "mesa 1:26.0.3-1",
+  "xorg-server-xvfb 21.1.25-1",
+  "imagemagick 7.1.2.32-1",
+  "uv 0.12.24-1",
+  "vulkan-icd-loader 1.4.341.0-1"
+ ],
+ "repo_versions": [
+  "core glibc 2.44+r50+g1848099f063e-1 [installed: 2.43+r5+g856c426a7534-1]",
+  "core glibc-locales 2.44+r50+g1848099f063e-1",
+  "extra dolphin-emu 1:2609-1 [installed]",
+  "extra dolphin-emu-tool 1:2609-1 [installed]",
+  "extra ffmpeg 2:9.0.2-2 [installed: 2:8.1-3]",
+  "extra ffmpeg4.4 4.4.8-5",
+  "extra ffmpegthumbnailer 2.3.1-1",
+  "extra ffmpegthumbs 26.08.2-1",
+  "extra mesa 1:26.2.4-1 [installed: 1:26.0.3-1]",
+  "extra mesa-amber 21.3.9-6",
+  "extra mesa-demos 9.0.0-7",
+  "extra mesa-docs 1:26.2.4-1",
+  "extra mesa-utils 9.0.0-7",
+  "extra vulkan-intel 1:26.2.4-1"
+ ],
+ "hardware": {
+  "cpu": "8",
+  "gpu": [
+   "00:02.0 VGA compatible controller: Intel Corporation Kaby Lake-S GT2 [HD Graphics 630] (rev 04)"
+  ],
+  "dri": [
+   "by-path",
+   "card0",
+   "renderD128"
+  ],
+  "virtualization": "none"
+ },
+ "iso": {
+  "path": "pikmin2.iso",
+  "bytes": 995557376,
+  "sha256": "5388b54a9c2d156c94bcfa80acd53b513288dc17e88c97a1edfb57ad25db661a",
+  "verified": true
+ }
+}

@@ -14,9 +14,30 @@ def _emit(status: str, **fields) -> int:
 
 
 def cmd_doctor(_: argparse.Namespace) -> int:
+    """Read-only environment check. PASS only when the tools exist, actually
+    exec, and a render display + uinput are reachable."""
     rep = dolphin.doctor_report()
-    missing = [k for k, v in rep["tools"].items() if not v]
-    return _emit("PASS" if not missing else "FAIL", **rep, missing_tools=missing)
+    problems, warnings = [], []
+    for tool in dolphin.REQUIRED_TOOLS:
+        if not rep["tools"][tool]:
+            problems.append({"code": "TOOL_MISSING", "tool": tool})
+    for tool, probe in rep["binaries"].items():
+        if probe["path"] and not probe["runnable"]:
+            problems.append({"code": "TOOL_BROKEN", "tool": tool, "detail": probe["error"],
+                             "hint": "Arch partial upgrade: owner runs 'sudo pacman -Syu'"})
+    if rep["display"]["headless"] and not rep["display"]["xvfb_run"]:
+        problems.append({"code": "NO_DISPLAY_NO_XVFB",
+                         "hint": "install xorg-server-xvfb, launch via PIKMINLAB_XVFB=1"})
+    if rep["uinput"]["present"] and not rep["uinput"]["writable"]:
+        problems.append({"code": "UINPUT_NOT_WRITABLE", "detail": rep["uinput"],
+                         "hint": "owner: udev rule KERNEL==\"uinput\", GROUP=\"input\", MODE=\"0660\" + usermod -aG input"})
+    elif not rep["uinput"]["present"]:
+        problems.append({"code": "UINPUT_MISSING", "hint": "modprobe uinput (owner)"})
+    if rep["disk_free_gb"] is not None and rep["disk_free_gb"] < 6:
+        warnings.append({"code": "LOW_DISK", "disk_free_gb": rep["disk_free_gb"],
+                         "hint": "extract+repack lane needs ~3x ISO size"})
+    status = "PASS" if not problems else "FAIL"
+    return _emit(status, **rep, problems=problems, warnings=warnings)
 
 
 def cmd_ingest(args: argparse.Namespace) -> int:

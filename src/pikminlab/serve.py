@@ -21,10 +21,12 @@ import hashlib, json, os, socketserver, subprocess, threading, time, urllib.pars
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 
-from .dolphin import REPO, PROFILE, GC_MAPPING, GC_PAD_INI, find_render_window
+from .dolphin import (REPO, PROFILE, GC_MAPPING, GC_PAD_INI, default_video_backend,
+                      display_env, find_render_window)
 from .vpad import VirtualPad
 
 GC_BUTTON_MAP = None  # populated lazily (evdev import)
+XVFB_SCREEN = "-screen 0 1280x960x24"  # ADR-0013: headless virtual display size
 
 
 def _btn_map():
@@ -45,12 +47,16 @@ class Session:
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.pad = VirtualPad()
         (PROFILE / "Config" / "GCPadNew.ini").write_text(GC_PAD_INI)
-        import os
-        env = {**os.environ, "SDL_VIDEODRIVER": "x11", "DISPLAY": ":0",
-               "SDL_GAMECONTROLLERCONFIG": GC_MAPPING + "\n"}
-        self.proc = subprocess.Popen(
-            ["dolphin-emu", "-u", str(PROFILE), "-e", str(iso), "-b", "-v", "Vulkan"],
-            env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        env = {**display_env(), "SDL_GAMECONTROLLERCONFIG": GC_MAPPING + "\n"}
+        cmd = ["dolphin-emu", "-u", str(PROFILE), "-e", str(iso), "-b",
+               "-v", default_video_backend()]
+        if env.get("PIKMINLAB_XVFB") == "1":
+            # Headless: run the emulator inside its own Xvfb (ADR-0013). The
+            # daemon inherits its DISPLAY for xdotool/magick, so capture works.
+            import shlex
+            cmd = ["xvfb-run", "-a", "-s", shlex.quote(XVFB_SCREEN), "--"] + cmd
+        self.proc = subprocess.Popen(cmd, env=env,
+                                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         self.window = ""
         for _ in range(30):
             self.window = find_render_window()
