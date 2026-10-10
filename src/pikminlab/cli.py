@@ -75,6 +75,35 @@ def cmd_state(args: argparse.Namespace) -> int:
                  expected="GPVE01", got=did.decode("ascii", "replace"))
 
 
+def cmd_serve(args: argparse.Namespace) -> int:
+    from . import serve
+    return serve.run(Path(args.iso), args.port, args.idle)
+
+
+def _drive(args: argparse.Namespace) -> int:
+    import json as _json, urllib.request
+    base = f"http://127.0.0.1:{args.port}"
+    if args.act == "state":
+        req = urllib.request.Request(base + "/state")
+    elif args.act == "shot":
+        req = urllib.request.Request(base + f"/screenshot?name={args.name or 'shot'}")
+    else:
+        payload = {"input": {"button": args.button, "hold": args.hold},
+                   "stick": {"x": args.x, "y": args.y},
+                   "read": {"addr": args.addr, "size": args.size},
+                   "stop": {}}[args.act]
+        req = urllib.request.Request(base + "/" + args.act,
+                                     data=_json.dumps(payload).encode(),
+                                     headers={"Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            print(_json.load(r))
+        return 0
+    except Exception as ex:
+        print({"status": "FAIL", "error": str(ex)})
+        return 1
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="pikminlab")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -92,6 +121,18 @@ def main(argv=None) -> int:
     ps.add_argument("iso")
     ps.add_argument("--cap-s", type=int, default=60)
     ps.set_defaults(fn=cmd_state)
+    sv = sub.add_parser("serve")
+    sv.add_argument("iso"); sv.add_argument("--port", type=int, default=38471)
+    sv.add_argument("--idle", type=float, default=300)
+    sv.set_defaults(fn=cmd_serve)
+    dv = sub.add_parser("drive")
+    dv.add_argument("act", choices=["state", "shot", "input", "stick", "read", "stop"])
+    dv.add_argument("--port", type=int, default=38471)
+    dv.add_argument("--button"); dv.add_argument("--hold", type=float, default=0.1)
+    dv.add_argument("--x", type=int, default=0); dv.add_argument("--y", type=int, default=0)
+    dv.add_argument("--addr", default="0x80000000"); dv.add_argument("--size", type=int, default=6)
+    dv.add_argument("--name")
+    dv.set_defaults(fn=_drive)
     args = ap.parse_args(argv)
     return args.fn(args)
 

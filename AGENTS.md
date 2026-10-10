@@ -22,6 +22,20 @@ Given the human's **existing local Pikmin 2 GameCube image path**, build an auto
 - Primary UX: **CLI + reports + Dolphin GUI**. No web dashboard required.
 - User's end-state goal: new caves, cheeky treasures, eventually replacement overworld and a fifth overworld, with agent-driven observations and regression tests.
 
+## AgentSkills library — grow it, follow it
+
+`.claude/skills/<name>/SKILL.md` follows the agentskills.io convention and is
+this project's **muscle memory**. Every agent session:
+
+1. Check `.claude/skills/` FIRST for any task involving Dolphin driving,
+   asset patches, cave generation, or test loops — the skill file encodes
+   verified recipes (e.g. the SDL3 gamepad config) so nothing is re-derived.
+2. After an exploration or debugging session teaches a new repeatable
+   procedure (screen flows, tool quirks, timings, gotchas), distill it into
+   a new or updated skill — keep them terse, command-first, honest about
+   open questions.
+3. Skills are code: commit them alongside the change they document.
+
 ## ADRs — mandatory decision log
 
 `docs/adr/` is the project's architecture decision record. Every agent run:

@@ -45,6 +45,18 @@ def _sh(*cmd: str, timeout: float = 15, env=None, **kw) -> subprocess.CompletedP
     return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, env=env, **kw)
 
 
+def find_render_window() -> str:
+    """The XWayland render window: dolphin-emu-class window whose title
+    contains '|' (ADR-0006/0011 recipe). Returns '' if not present."""
+    win = ""
+    r = _sh("xdotool", "search", "--class", "dolphin-emu")
+    for wid in r.stdout.split():
+        n = _sh("xdotool", "getwindowname", wid).stdout
+        if "|" in n:
+            win = wid
+    return win
+
+
 class DolphinSession:
     """One batch-mode instance with guaranteed teardown. Use as a context
     manager: the owner never sees a stranded window."""
