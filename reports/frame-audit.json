@@ -1,0 +1,1098 @@
+{
+  "frames_total": 249,
+  "runs_total": 40,
+  "disk_free_gib": 12.02,
+  "counts": {
+    "flat_geometry": 86,
+    "hud_pulse": 156,
+    "black_or_idle": 17,
+    "all_black": 19,
+    "empty_scene": 13,
+    "self_progressing": 40,
+    "frozen_frame": 3
+  },
+  "shortlist": [
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202546Z-pad-drive/t0_warning.png",
+      "bytes": 118883,
+      "sha": "781b1cf9391c67c7",
+      "mean": 0.0734,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.098,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202546Z-pad-drive/t1_after_start.png",
+      "bytes": 113063,
+      "sha": "4bd578b015470440",
+      "mean": 0.067,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.1098,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202546Z-pad-drive/t2_after_start.png",
+      "bytes": 120431,
+      "sha": "f0a73b149df20235",
+      "mean": 0.0776,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0902,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202546Z-pad-drive/t3_after_start.png",
+      "bytes": 118443,
+      "sha": "42b7004de5c29272",
+      "mean": 0.0722,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.102,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202733Z-pad-drive/t0_warning.png",
+      "bytes": 120531,
+      "sha": "9f5faf48e4cd5b2e",
+      "mean": 0.0781,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0902,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202733Z-pad-drive/t1_after_start.png",
+      "bytes": 113063,
+      "sha": "4bd578b015470440",
+      "mean": 0.067,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.1098,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202733Z-pad-drive/t2_after_start.png",
+      "bytes": 119564,
+      "sha": "f4635026fafe3ac9",
+      "mean": 0.0751,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0941,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202733Z-pad-drive/t3_after_start.png",
+      "bytes": 118678,
+      "sha": "8a743d503bcc2021",
+      "mean": 0.0728,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.098,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202936Z-button-mash/mash1.png",
+      "bytes": 109695,
+      "sha": "c6f4cee66399cb44",
+      "mean": 0.0663,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.1098,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202936Z-button-mash/mash2.png",
+      "bytes": 120495,
+      "sha": "bb7ded47b9b93911",
+      "mean": 0.0778,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0902,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202936Z-button-mash/mash3.png",
+      "bytes": 113939,
+      "sha": "145b13bc5b1e04df",
+      "mean": 0.0673,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.1098,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T202936Z-button-mash/t0.png",
+      "bytes": 120143,
+      "sha": "3b7940439871eadb",
+      "mean": 0.0765,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0941,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T203342Z-gpad-drive/start1.png",
+      "bytes": 113868,
+      "sha": "1039bdf8997fe886",
+      "mean": 0.0673,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.1098,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T203342Z-gpad-drive/start2.png",
+      "bytes": 120431,
+      "sha": "f0a73b149df20235",
+      "mean": 0.0776,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0902,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T203342Z-gpad-drive/start3.png",
+      "bytes": 116916,
+      "sha": "26cefceb255bf1a3",
+      "mean": 0.0697,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.1059,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T203342Z-gpad-drive/t0_warning.png",
+      "bytes": 118883,
+      "sha": "781b1cf9391c67c7",
+      "mean": 0.0734,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.098,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T203550Z-gpad-drive/t0_warning.png",
+      "bytes": 119769,
+      "sha": "1afd27d4bb483862",
+      "mean": 0.0757,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0941,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T212441Z-serve/s_menu.png",
+      "bytes": 117261,
+      "sha": "ca482272df2d26a0",
+      "mean": 0.0471,
+      "colors": 637,
+      "size": "1280x960",
+      "tile_spread": 0.0157,
+      "anomalies": [
+        "empty_scene"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T212441Z-serve/view1.png",
+      "bytes": 113868,
+      "sha": "1039bdf8997fe886",
+      "mean": 0.0673,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.1098,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T222203Z-serve/a1.png",
+      "bytes": 119181,
+      "sha": "6ca604282acd839c",
+      "mean": 0.0739,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.098,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T223119Z-serve/f0.png",
+      "bytes": 71095,
+      "sha": "40c6fa1e1bcabe9b",
+      "mean": 0.0232,
+      "colors": 384,
+      "size": "1280x960",
+      "tile_spread": 0.0157,
+      "anomalies": [
+        "flat_geometry",
+        "empty_scene"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T224247Z-g0/run1/capture.png",
+      "bytes": 120520,
+      "sha": "195b235694b0227e",
+      "mean": 0.078,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0902,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T224247Z-g0/run10/capture.png",
+      "bytes": 120431,
+      "sha": "f0a73b149df20235",
+      "mean": 0.0776,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0902,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T224247Z-g0/run6/capture.png",
+      "bytes": 119564,
+      "sha": "f4635026fafe3ac9",
+      "mean": 0.0751,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0941,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    },
+    {
+      "why": "flat/empty scene \u2014 needs eyes",
+      "path": "reports/runs/2026-10-09T224247Z-g0/run9/capture.png",
+      "bytes": 120431,
+      "sha": "f0a73b149df20235",
+      "mean": 0.0776,
+      "colors": 256,
+      "size": "1280x960",
+      "tile_spread": 0.0902,
+      "anomalies": [
+        "flat_geometry"
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "run": "2026-10-09T202546Z-pad-drive",
+      "frames": 4,
+      "flagged": 4,
+      "kinds": {
+        "flat_geometry": 4
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 3,
+        "median_rmse": 0.05124
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T202546Z-pad-drive/t0_warning.png",
+        "reports/runs/2026-10-09T202546Z-pad-drive/t1_after_start.png",
+        "reports/runs/2026-10-09T202546Z-pad-drive/t2_after_start.png",
+        "reports/runs/2026-10-09T202546Z-pad-drive/t3_after_start.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T202733Z-pad-drive",
+      "frames": 4,
+      "flagged": 4,
+      "kinds": {
+        "flat_geometry": 4
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 3,
+        "median_rmse": 0.06509
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T202733Z-pad-drive/t0_warning.png",
+        "reports/runs/2026-10-09T202733Z-pad-drive/t1_after_start.png",
+        "reports/runs/2026-10-09T202733Z-pad-drive/t2_after_start.png",
+        "reports/runs/2026-10-09T202733Z-pad-drive/t3_after_start.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T202936Z-button-mash",
+      "frames": 4,
+      "flagged": 4,
+      "kinds": {
+        "flat_geometry": 4
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 3,
+        "median_rmse": 0.08377
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T202936Z-button-mash/mash1.png",
+        "reports/runs/2026-10-09T202936Z-button-mash/mash2.png",
+        "reports/runs/2026-10-09T202936Z-button-mash/mash3.png",
+        "reports/runs/2026-10-09T202936Z-button-mash/t0.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T203342Z-gpad-drive",
+      "frames": 4,
+      "flagged": 4,
+      "kinds": {
+        "flat_geometry": 4
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 3,
+        "median_rmse": 0.06282
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T203342Z-gpad-drive/start1.png",
+        "reports/runs/2026-10-09T203342Z-gpad-drive/start2.png",
+        "reports/runs/2026-10-09T203342Z-gpad-drive/start3.png",
+        "reports/runs/2026-10-09T203342Z-gpad-drive/t0_warning.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T203550Z-gpad-drive",
+      "frames": 4,
+      "flagged": 3,
+      "kinds": {
+        "black_or_idle": 1,
+        "all_black": 1,
+        "flat_geometry": 1
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 3,
+        "median_rmse": 0.25366
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T203550Z-gpad-drive/start1.png",
+        "reports/runs/2026-10-09T203550Z-gpad-drive/start2.png",
+        "reports/runs/2026-10-09T203550Z-gpad-drive/t0_warning.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T212441Z-serve",
+      "frames": 9,
+      "flagged": 3,
+      "kinds": {
+        "empty_scene": 1,
+        "black_or_idle": 1,
+        "flat_geometry": 1
+      },
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 6,
+        "median_rmse": 0.14157
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T212441Z-serve/s_menu.png",
+        "reports/runs/2026-10-09T212441Z-serve/s_title.png",
+        "reports/runs/2026-10-09T212441Z-serve/view1.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T213117Z-serve",
+      "frames": 6,
+      "flagged": 0,
+      "kinds": {},
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 3,
+        "median_rmse": 0.25484
+      },
+      "flagged_paths": []
+    },
+    {
+      "run": "2026-10-09T214140Z-serve",
+      "frames": 14,
+      "flagged": 1,
+      "kinds": {
+        "all_black": 1
+      },
+      "pairs": {
+        "self_progressing": 3,
+        "hud_pulse": 10,
+        "median_rmse": 0.15599
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T214140Z-serve/g0.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T221807Z-serve",
+      "frames": 2,
+      "flagged": 1,
+      "kinds": {
+        "all_black": 1
+      },
+      "pairs": {
+        "self_progressing": 1,
+        "hud_pulse": 0,
+        "median_rmse": 0.35941
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T221807Z-serve/mc1.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T222203Z-serve",
+      "frames": 1,
+      "flagged": 1,
+      "kinds": {
+        "flat_geometry": 1
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 0,
+        "median_rmse": null
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T222203Z-serve/a1.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T222725Z-serve",
+      "frames": 5,
+      "flagged": 1,
+      "kinds": {
+        "all_black": 1
+      },
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 2,
+        "median_rmse": 0.52442
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T222725Z-serve/s1.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T223119Z-serve",
+      "frames": 14,
+      "flagged": 2,
+      "kinds": {
+        "flat_geometry": 1,
+        "empty_scene": 1,
+        "all_black": 1
+      },
+      "pairs": {
+        "self_progressing": 4,
+        "hud_pulse": 9,
+        "median_rmse": 0.21575
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T223119Z-serve/f0.png",
+        "reports/runs/2026-10-09T223119Z-serve/f1.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T224247Z-g0",
+      "frames": 4,
+      "flagged": 4,
+      "kinds": {
+        "flat_geometry": 4
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 2,
+        "median_rmse": 0.01981
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T224247Z-g0/run1/capture.png",
+        "reports/runs/2026-10-09T224247Z-g0/run10/capture.png",
+        "reports/runs/2026-10-09T224247Z-g0/run6/capture.png",
+        "reports/runs/2026-10-09T224247Z-g0/run9/capture.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T225134Z-g0",
+      "frames": 1,
+      "flagged": 1,
+      "kinds": {
+        "flat_geometry": 1
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 0,
+        "median_rmse": null
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T225134Z-g0/run1/capture.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T225225Z-g0",
+      "frames": 6,
+      "flagged": 6,
+      "kinds": {
+        "flat_geometry": 6
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 1,
+        "median_rmse": 0.00226
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T225225Z-g0/run1/capture.png",
+        "reports/runs/2026-10-09T225225Z-g0/run2/capture.png",
+        "reports/runs/2026-10-09T225225Z-g0/run3/capture.png",
+        "reports/runs/2026-10-09T225225Z-g0/run4/capture.png",
+        "reports/runs/2026-10-09T225225Z-g0/run5/capture.png",
+        "reports/runs/2026-10-09T225225Z-g0/run6/capture.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T225828Z-inputprobe",
+      "frames": 4,
+      "flagged": 4,
+      "kinds": {
+        "flat_geometry": 3,
+        "all_black": 1
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 3,
+        "median_rmse": 0.05275
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T225828Z-inputprobe/cap_after_a.png",
+        "reports/runs/2026-10-09T225828Z-inputprobe/cap_after_start1.png",
+        "reports/runs/2026-10-09T225828Z-inputprobe/cap_after_start2.png",
+        "reports/runs/2026-10-09T225828Z-inputprobe/cap_title.png"
+      ]
+    },
+    {
+      "run": "2026-10-09T225921Z-probe",
+      "frames": 2,
+      "flagged": 2,
+      "kinds": {
+        "flat_geometry": 1,
+        "all_black": 1
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 1,
+        "median_rmse": 0.2196
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-09T225921Z-probe/after1_Return.png",
+        "reports/runs/2026-10-09T225921Z-probe/t0.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T015618Z-serve",
+      "frames": 2,
+      "flagged": 2,
+      "kinds": {
+        "flat_geometry": 2
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 1,
+        "median_rmse": 0.12838
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T015618Z-serve/c0dwell0.png",
+        "reports/runs/2026-10-10T015618Z-serve/c0dwell1.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T020109Z-serve",
+      "frames": 12,
+      "flagged": 10,
+      "kinds": {
+        "flat_geometry": 8,
+        "black_or_idle": 2,
+        "empty_scene": 2
+      },
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 8,
+        "median_rmse": 0.11327
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T020109Z-serve/c0after_start.png",
+        "reports/runs/2026-10-10T020109Z-serve/c0dwell0.png",
+        "reports/runs/2026-10-10T020109Z-serve/c0dwell1.png",
+        "reports/runs/2026-10-10T020109Z-serve/c1after_start.png",
+        "reports/runs/2026-10-10T020109Z-serve/c1dwell0.png",
+        "reports/runs/2026-10-10T020109Z-serve/c1dwell1.png",
+        "reports/runs/2026-10-10T020109Z-serve/c2after_a.png",
+        "reports/runs/2026-10-10T020109Z-serve/c2dwell0.png",
+        "reports/runs/2026-10-10T020109Z-serve/c2dwell1.png",
+        "reports/runs/2026-10-10T020109Z-serve/c3dwell0.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T021234Z-serve",
+      "frames": 11,
+      "flagged": 9,
+      "kinds": {
+        "flat_geometry": 9
+      },
+      "pairs": {
+        "self_progressing": 1,
+        "hud_pulse": 6,
+        "median_rmse": 0.0408
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T021234Z-serve/a00.png",
+        "reports/runs/2026-10-10T021234Z-serve/a01.png",
+        "reports/runs/2026-10-10T021234Z-serve/a10.png",
+        "reports/runs/2026-10-10T021234Z-serve/a11.png",
+        "reports/runs/2026-10-10T021234Z-serve/a20.png",
+        "reports/runs/2026-10-10T021234Z-serve/a21.png",
+        "reports/runs/2026-10-10T021234Z-serve/a30.png",
+        "reports/runs/2026-10-10T021234Z-serve/a31.png",
+        "reports/runs/2026-10-10T021234Z-serve/a3_A.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T021840Z-serve",
+      "frames": 22,
+      "flagged": 13,
+      "kinds": {
+        "flat_geometry": 11,
+        "all_black": 1,
+        "empty_scene": 1
+      },
+      "pairs": {
+        "self_progressing": 1,
+        "hud_pulse": 17,
+        "median_rmse": 0.06862
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T021840Z-serve/a00.png",
+        "reports/runs/2026-10-10T021840Z-serve/a01.png",
+        "reports/runs/2026-10-10T021840Z-serve/a10.png",
+        "reports/runs/2026-10-10T021840Z-serve/a11.png",
+        "reports/runs/2026-10-10T021840Z-serve/a20.png",
+        "reports/runs/2026-10-10T021840Z-serve/a21.png",
+        "reports/runs/2026-10-10T021840Z-serve/a2_A.png",
+        "reports/runs/2026-10-10T021840Z-serve/a2_START.png",
+        "reports/runs/2026-10-10T021840Z-serve/a30.png",
+        "reports/runs/2026-10-10T021840Z-serve/a31.png",
+        "reports/runs/2026-10-10T021840Z-serve/a40.png",
+        "reports/runs/2026-10-10T021840Z-serve/a41.png",
+        "reports/runs/2026-10-10T021840Z-serve/a50.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T023539Z-serve",
+      "frames": 11,
+      "flagged": 1,
+      "kinds": {
+        "black_or_idle": 1,
+        "empty_scene": 1
+      },
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 8,
+        "median_rmse": 0.12398
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T023539Z-serve/boot.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T030246Z-serve",
+      "frames": 2,
+      "flagged": 1,
+      "kinds": {
+        "black_or_idle": 1,
+        "empty_scene": 1
+      },
+      "pairs": {
+        "self_progressing": 1,
+        "hud_pulse": 0,
+        "median_rmse": 0.567
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T030246Z-serve/t000-boot.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T031457Z-serve",
+      "frames": 2,
+      "flagged": 1,
+      "kinds": {
+        "black_or_idle": 1,
+        "empty_scene": 1
+      },
+      "pairs": {
+        "self_progressing": 1,
+        "hud_pulse": 0,
+        "median_rmse": 0.57238
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T031457Z-serve/t000-boot.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T032137Z-serve",
+      "frames": 7,
+      "flagged": 2,
+      "kinds": {
+        "flat_geometry": 1,
+        "empty_scene": 1,
+        "black_or_idle": 1
+      },
+      "pairs": {
+        "self_progressing": 5,
+        "hud_pulse": 1,
+        "median_rmse": 0.50395
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T032137Z-serve/t000-boot.png",
+        "reports/runs/2026-10-10T032137Z-serve/t006-after-left.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T033030Z-serve",
+      "frames": 10,
+      "flagged": 1,
+      "kinds": {
+        "black_or_idle": 1,
+        "empty_scene": 1
+      },
+      "pairs": {
+        "self_progressing": 1,
+        "hud_pulse": 8,
+        "median_rmse": 0.10482
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T033030Z-serve/p1_t0_no_input.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T045540Z-headless-smoke",
+      "frames": 2,
+      "flagged": 2,
+      "kinds": {
+        "black_or_idle": 1,
+        "empty_scene": 1,
+        "all_black": 1
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 1,
+        "median_rmse": 0.0151
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T045540Z-headless-smoke/shot1.png",
+        "reports/runs/2026-10-10T045540Z-headless-smoke/shot2.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T050107Z-headless-smoke",
+      "frames": 3,
+      "flagged": 3,
+      "kinds": {
+        "flat_geometry": 3
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 1,
+        "median_rmse": 0.06251
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T050107Z-headless-smoke/scene.png",
+        "reports/runs/2026-10-10T050107Z-headless-smoke/shot1.png",
+        "reports/runs/2026-10-10T050107Z-headless-smoke/shot2.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T065815Z-headless-smoke",
+      "frames": 3,
+      "flagged": 3,
+      "kinds": {
+        "flat_geometry": 3
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 2,
+        "median_rmse": 0.03893
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T065815Z-headless-smoke/scene.png",
+        "reports/runs/2026-10-10T065815Z-headless-smoke/shot1.png",
+        "reports/runs/2026-10-10T065815Z-headless-smoke/shot2.png"
+      ]
+    },
+    {
+      "run": "2026-10-10T065914Z-headless-smoke",
+      "frames": 3,
+      "flagged": 3,
+      "kinds": {
+        "flat_geometry": 3
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 2,
+        "median_rmse": 0.01948
+      },
+      "flagged_paths": [
+        "reports/runs/2026-10-10T065914Z-headless-smoke/scene.png",
+        "reports/runs/2026-10-10T065914Z-headless-smoke/shot1.png",
+        "reports/runs/2026-10-10T065914Z-headless-smoke/shot2.png"
+      ]
+    },
+    {
+      "run": "g2-header-observe",
+      "frames": 4,
+      "flagged": 2,
+      "kinds": {
+        "black_or_idle": 1,
+        "all_black": 1
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 3,
+        "median_rmse": 0.24193
+      },
+      "flagged_paths": [
+        "reports/runs/g2-header-observe/g0.png",
+        "reports/runs/g2-header-observe/g1.png"
+      ]
+    },
+    {
+      "run": "g2-header-observe2",
+      "frames": 7,
+      "flagged": 4,
+      "kinds": {
+        "flat_geometry": 1,
+        "black_or_idle": 1,
+        "empty_scene": 1,
+        "all_black": 2
+      },
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 4,
+        "median_rmse": 0.2187
+      },
+      "flagged_paths": [
+        "reports/runs/g2-header-observe2/h0.png",
+        "reports/runs/g2-header-observe2/h1.png",
+        "reports/runs/g2-header-observe2/h2.png",
+        "reports/runs/g2-header-observe2/hA.png"
+      ]
+    },
+    {
+      "run": "g2-observe-1",
+      "frames": 7,
+      "flagged": 2,
+      "kinds": {
+        "flat_geometry": 1,
+        "black_or_idle": 1
+      },
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 4,
+        "median_rmse": 0.23518
+      },
+      "flagged_paths": [
+        "reports/runs/g2-observe-1/s0_warning.png",
+        "reports/runs/g2-observe-1/s1_after_start.png"
+      ]
+    },
+    {
+      "run": "g2-observe-2",
+      "frames": 12,
+      "flagged": 4,
+      "kinds": {
+        "flat_geometry": 1,
+        "black_or_idle": 1,
+        "all_black": 2
+      },
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 9,
+        "median_rmse": 0.16307
+      },
+      "flagged_paths": [
+        "reports/runs/g2-observe-2/s00.png",
+        "reports/runs/g2-observe-2/s01.png",
+        "reports/runs/g2-observe-2/s02.png",
+        "reports/runs/g2-observe-2/s05.png"
+      ]
+    },
+    {
+      "run": "g2-observe-3",
+      "frames": 11,
+      "flagged": 3,
+      "kinds": {
+        "black_or_idle": 1,
+        "all_black": 2
+      },
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 8,
+        "median_rmse": 0.16264
+      },
+      "flagged_paths": [
+        "reports/runs/g2-observe-3/f00_START.png",
+        "reports/runs/g2-observe-3/f01_START.png",
+        "reports/runs/g2-observe-3/f04_START.png"
+      ]
+    },
+    {
+      "run": "harness-check",
+      "frames": 2,
+      "flagged": 1,
+      "kinds": {
+        "flat_geometry": 1
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 1,
+        "median_rmse": 0.29009
+      },
+      "flagged_paths": [
+        "reports/runs/harness-check/a_warning.png"
+      ]
+    },
+    {
+      "run": "loco-1",
+      "frames": 5,
+      "flagged": 2,
+      "kinds": {
+        "black_or_idle": 1,
+        "empty_scene": 1,
+        "all_black": 1
+      },
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 2,
+        "median_rmse": 0.34816
+      },
+      "flagged_paths": [
+        "reports/runs/loco-1/c0.png",
+        "reports/runs/loco-1/c2.png"
+      ]
+    },
+    {
+      "run": "loco-2",
+      "frames": 17,
+      "flagged": 4,
+      "kinds": {
+        "flat_geometry": 1,
+        "black_or_idle": 1,
+        "all_black": 2
+      },
+      "pairs": {
+        "self_progressing": 2,
+        "hud_pulse": 14,
+        "median_rmse": 0.104
+      },
+      "flagged_paths": [
+        "reports/runs/loco-2/step01.png",
+        "reports/runs/loco-2/step02.png",
+        "reports/runs/loco-2/step03.png",
+        "reports/runs/loco-2/step06.png"
+      ]
+    },
+    {
+      "run": "menu-recon-1",
+      "frames": 5,
+      "flagged": 5,
+      "kinds": {
+        "flat_geometry": 5
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 4,
+        "median_rmse": 0.04151
+      },
+      "flagged_paths": [
+        "reports/runs/menu-recon-1/t0_title.png",
+        "reports/runs/menu-recon-1/t1_Return.png",
+        "reports/runs/menu-recon-1/t2_Return.png",
+        "reports/runs/menu-recon-1/t3_x.png",
+        "reports/runs/menu-recon-1/t4_x.png"
+      ]
+    },
+    {
+      "run": "modified-boot-evidence",
+      "frames": 1,
+      "flagged": 1,
+      "kinds": {
+        "flat_geometry": 1
+      },
+      "pairs": {
+        "self_progressing": 0,
+        "hud_pulse": 0,
+        "median_rmse": null
+      },
+      "flagged_paths": [
+        "reports/runs/modified-boot-evidence/modified_title.png"
+      ]
+    }
+  ],
+  "note": "Statistical signatures only; a colour count cannot distinguish a black screen from a shadowed cave, so every flagged frame is listed by path for human confirmation (AGENTS: no claims without evidence)."
+}

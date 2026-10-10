@@ -110,6 +110,12 @@ def main() -> int:
                      and lit(stats(s1)) and lit(stats(s2)))
         rec["shots"] = [{"path": str(s1), "sha": sha(s1), **stats(s1)},
                         {"path": str(s2), "sha": sha(s2), **stats(s2)}]
+        # Freshness must be lit AND different. A 1-colour black capture next to a
+        # lit one passes a hash comparison and proves nothing about rendering
+        # (finding F2, ADR-0022: 19 black captures across 15 past runs).
+        both_lit = frames.lit(s1) and frames.lit(s2)
+        rec["both_shots_lit"] = both_lit
+        fresh = fresh and both_lit
         rec["shot_rmse"] = rms(s1, s2) if fresh else None
         rec["steps"].append(["fresh_screenshot", fresh])
 
