@@ -37,7 +37,7 @@ Given the human's **existing local Pikmin 2 GameCube image path**, build an auto
 - Every commit message states *why*, understandable without the diff.
 - **Never stage:** ISOs, extracted proprietary assets, saves/profiles, run evidence binaries (enforced by `.gitignore`; double-check `git status` before each commit).
 - Tag verified passing states (e.g. `g0-baseline`) so `pikminlab play --last-passing` can trace provenance.
-- Do not push to any remote unless the owner asks.
+- **Push to origin after every meaningful commit** (owner standing instruction 2026-10-09); use `--force-with-lease` for any rewritten history.
 
 ## First assignment — execute, don't merely restate
 
