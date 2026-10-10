@@ -76,12 +76,19 @@ class DolphinSession:
     """One batch-mode instance with guaranteed teardown. Use as a context
     manager: the owner never sees a stranded window."""
 
-    def __init__(self, iso: Path, video_backend: str | None = None, pad: bool = True):
+    def __init__(self, iso: Path, video_backend: str | None = None, pad: bool = True,
+                 log_path: Path | None = None):
         self.iso = iso
         self.video_backend = video_backend or default_video_backend()
         self.use_pad = pad
         self.proc: subprocess.Popen | None = None
         self.pad = None
+        # Dolphin's own stdout/stderr names the input device it opened for each
+        # port. Sending it to DEVNULL hid the only log that could say whether our
+        # uinput pad ever became Port 1, which is why the t5 blocker took a
+        # control-run experiment to characterise (ADR-0020). Keep it per session.
+        self.log_path = log_path
+        self._log_fh = None
 
     def start(self) -> "DolphinSession":
         env = {**display_env(), "SDL_GAMECONTROLLERCONFIG": GC_MAPPING + "\n"}
@@ -89,10 +96,20 @@ class DolphinSession:
             from .vpad import VirtualPad
             self.pad = VirtualPad()
             (PROFILE / "Config" / "GCPadNew.ini").write_text(GC_PAD_INI)
+        if self.log_path is None:      # default: every session logs, so the
+            # device/port evidence exists even when a call site forgot to ask
+            self.log_path = (PROFILE / "Logs" /
+                             ("session-" + time.strftime("%Y%m%dT%H%M%SZ") + ".log"))
+        if self.log_path is not None:
+            self.log_path.parent.mkdir(parents=True, exist_ok=True)
+            self._log_fh = self.log_path.open("ab")
+            out = err = self._log_fh
+        else:
+            out = err = subprocess.DEVNULL
         self.proc = subprocess.Popen(
             ["dolphin-emu", "-u", str(PROFILE), "-e", str(self.iso), "-b",
              "-v", self.video_backend],
-            env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            env=env, stdout=out, stderr=err)
         return self
 
     # -- real GC pad input via uinput (ADR-0011) ------------------------
@@ -150,6 +167,8 @@ class DolphinSession:
             self.proc.wait(timeout=10)
         finally:
             self.proc = None
+            if self._log_fh:
+                self._log_fh.close(); self._log_fh = None
 
     def __enter__(self): return self.start()
     def __exit__(self, *exc): self.stop()

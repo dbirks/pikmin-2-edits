@@ -58,10 +58,16 @@ class Session:
         if geo.returncode != 0:
             raise RuntimeError(f"NO_DISPLAY: DISPLAY={env['DISPLAY']!r} unreachable "
                                f"(xdotool: {geo.stderr.strip()[:80]}). Run under xvfb-run.")
+        # Dolphin prints which input device it opened per emulated port. With
+        # DEVNULL the E2E lane had no way to ask "did Port 1 ever get our pad?"
+        # and had to infer it from frame deltas, which the attract demo then lied
+        # about (ADR-0020). Keep the log beside the captures it describes.
+        self.dolphin_log = self.run_dir / "dolphin.log"
+        self._log_fh = self.dolphin_log.open("ab")
         self.proc = subprocess.Popen(
             ["dolphin-emu", "-u", str(PROFILE), "-e", str(iso), "-b",
              "-v", default_video_backend()],
-            env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            env=env, stdout=self._log_fh, stderr=self._log_fh)
         self.window = ""
         for _ in range(30):
             self.window = find_render_window()
@@ -239,7 +245,11 @@ class Session:
             pass
         try: self.pad.close()
         except Exception: pass
-        try: self.proc.kill(); self.proc.wait(timeout=10)
+        try:
+            self.proc.kill(); self.proc.wait(timeout=10)
+        finally:
+            if getattr(self, "_log_fh", None):
+                self._log_fh.close()
         except Exception: pass
 
 
