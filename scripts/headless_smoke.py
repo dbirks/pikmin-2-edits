@@ -19,6 +19,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from pikminlab import frames  # noqa: E402
 from pikminlab.dolphin import DolphinSession, default_video_backend, display_env  # noqa: E402
 
 MEM1_DISC_ID = 0x80000000
@@ -47,14 +48,13 @@ def lit(st: dict, min_mean: float = 0.02, min_colors: int = 32) -> bool:
 
 
 def rms(a: Path, b: Path) -> float:
-    """Coarse visual delta between two captures (skill: UI pulse is ~1-2%)."""
-    out = subprocess.run(
-        ["magick", "compare", "-metric", "RMSE", "-resize", "320x240!",
-         str(a), str(b), "null:"], capture_output=True, text=True)
-    try:
-        return float(out.stderr.split()[0])
-    except (ValueError, IndexError):
-        return -1.0
+    """Delegates to pikminlab.frames so every script reports the SAME scale.
+
+    This local copy forgot to divide ImageMagick's RMSE by 65535, so the headless
+    gate printed `shot_rmse: 1005.92` — a number on a 0..1 scale that read like a
+    catastrophe and meant ~1.5% (UI pulse band). Evidence numbers must be
+    comparable across runs, hence one implementation (ADR-0017/0019)."""
+    return frames.rmse(a, b)
 
 
 def main() -> int:

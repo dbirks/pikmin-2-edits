@@ -139,6 +139,75 @@ def _drive(args: argparse.Namespace) -> int:
         return 1
 
 
+def cmd_build(args: argparse.Namespace) -> int:
+    """Repack the extracted tree into builds/<name>.iso and record provenance.
+
+    `--lane data` is the only implemented lane: text/asset edits only, never the
+    decomp C++ lane. The ISO is gitignored; the *manifest* (hashes, sizes,
+    per-file delta) is committed under reports/builds/ so a passing build stays
+    traceable without shipping disc bytes (AGENTS.md)."""
+    import json
+    from . import buildlane, cavebuild
+    if args.lane != "data":
+        return _emit("NOT_TESTED", lane=args.lane, reason="only --lane data is implemented")
+    tree = Path(args.root)
+    if not tree.is_dir():
+        return _emit("BLOCKED", reason=f"no extract tree at {tree}; run `pikminlab extract`")
+    try:
+        free = buildlane.require_headroom(tree.parent)
+    except RuntimeError as ex:
+        return _emit("BLOCKED", reason=str(ex))
+    # Guard: a build must carry the design the human thinks it carries. An
+    # integration test that restores the tree had silently produced a *pristine*
+    # ISO from a patched-looking working directory, so the tree's current hashes
+    # are checked against the patch manifests before a single byte is repacked.
+    stale = []
+    for m in sorted(cavebuild.BACKUP_ROOT.glob("*/manifest.json")):
+        mm = json.loads(m.read_text())
+        for f in mm["files"]:
+            tp = tree / f["path"]
+            if not tp.is_file():
+                continue
+            now = buildlane.sha256(tp.read_bytes())
+            if now not in (f["after_sha256"], f["before_sha256"]):
+                stale.append({"path": f["path"], "tree_sha256": now[:16]})
+            if now == f["before_sha256"]:
+                stale.append({"path": f["path"], "state": "design NOT applied (pristine bytes in tree)"})
+    if stale and not args.allow_stale:
+        return _emit("BLOCKED", stage="pre-build", stale_or_unapplied=stale,
+                     hint="run `pikminlab cave apply <design>` (or pass --allow-stale)")
+
+    out = Path(args.out)
+    try:
+        buildlane.build_iso(tree, out)
+    except Exception as ex:                                # noqa: BLE001 - report, don't crash
+        return _emit("FAIL", stage="repack", error=f"{type(ex).__name__}: {ex}")
+    data = out.read_bytes()
+    baseline = Path(args.baseline)
+    man = {"iso": str(out), "iso_bytes": len(data), "iso_sha256": buildlane.sha256(data),
+           "lane": args.lane, "built_by": "pikminlab build --lane data",
+           "baseline_iso": str(baseline) if baseline.is_file() else None,
+           "baseline_sha256": buildlane.sha256(baseline.read_bytes()) if baseline.is_file() else None,
+           "free_gib_before": round(free / 1024**3, 2),
+           "video_backend": "OpenGL under Xvfb (headless, ADR-0014)",
+           "source_tree": str(tree)}
+    stem = out.stem
+    # per-file delta vs baseline comes from the patch manifests the data lane wrote
+    delta: list[dict] = []
+    for m in sorted(cavebuild.BACKUP_ROOT.glob("*/manifest.json")):
+        mm = json.loads(m.read_text())
+        for f in mm["files"]:
+            if f["before_sha256"] != f["after_sha256"]:
+                delta.append({"patched_by": m.parent.name, **{k: f[k] for k in
+                            ("path", "before_sha256", "after_sha256", "bytes_before", "bytes_after")}})
+    man["file_delta"] = delta
+    Path("reports/builds").mkdir(parents=True, exist_ok=True)
+    Path(f"reports/builds/{stem}.json").write_text(json.dumps(man, indent=2, sort_keys=True) + "\n")
+    return _emit("PASS", stage="repack", iso=str(out), iso_sha256=man["iso_sha256"],
+                 iso_bytes=man["iso_bytes"], delta_files=len(delta),
+                 baseline_sha256=man["baseline_sha256"], manifest=f"reports/builds/{stem}.json")
+
+
 def cmd_cave(args: argparse.Namespace) -> int:
     """Author-side cave work: compile a design into the extract tree, validate, undo.
 
@@ -205,6 +274,15 @@ def main(argv=None) -> int:
     sv.add_argument("iso"); sv.add_argument("--port", type=int, default=38471)
     sv.add_argument("--idle", type=float, default=300)
     sv.set_defaults(fn=cmd_serve)
+    pb = sub.add_parser("build")
+    pb.add_argument("--lane", default="data", choices=["data", "decomp"])
+    pb.add_argument("--root", default="workspace/extracted/root")
+    pb.add_argument("--out", default="builds/lab-cave.iso")
+    pb.add_argument("--baseline", default="pikmin2.iso")
+    pb.add_argument("--allow-stale", action="store_true",
+                    help="build even if the tree does not carry an applied cave design")
+    pb.set_defaults(fn=cmd_build)
+
     pc = sub.add_parser("cave")
     pc.add_argument("act", choices=["compile", "validate", "apply", "restore"])
     pc.add_argument("design")

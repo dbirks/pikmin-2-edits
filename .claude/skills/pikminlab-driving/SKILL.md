@@ -175,3 +175,24 @@ uv run pikminlab cave restore   design/caves/forest-3-reprise.yaml # byte-identi
 - Room *connectivity* is not statically checkable yet (door block length follows
   `num_doors`): prove descent/exit in-game at t5.
 
+## Repacking and proving a build (ADR-0019)
+```bash
+uv run pikminlab cave apply design/caves/forest-3-reprise.yaml   # must be applied first
+uv run pikminlab build  --lane data --out builds/lab-cave.iso     # BLOCKED if tree is pristine
+uv run python scripts/repack_delta.py pikmin2.iso builds/lab-cave.iso \
+    workspace/extracted/root files/user/Mukki/mapunits/caveinfo/forest_3.txt \
+    files/user/Abe/Pellet/us/otakara_config.txt > reports/builds/lab-cave-content-delta.json
+PIKMINLAB_VIDEO_BACKEND=OpenGL xvfb-run -a -s "-screen 0 1280x960x24" \
+    uv run python scripts/headless_smoke.py builds/lab-cave.iso
+```
+- Never trust an ISO hash alone: pyisotools pads to full DVD (owned baseline is an
+  NKit image), so **compare FST path+size tables** and hash the touched nodes inside
+  both ISOs (`scripts/repack_delta.py`; `extract_path` writes nothing useful).
+- pyisotools 2.4.7 **breaks non-ASCII filenames** (13 JP dev assets mangled/dropped,
+  longest name 49 → 92 chars). ASCII paths are safe; verify any needed file is
+  ASCII-named before relying on a rebuild.
+- `build` refuses when the tree doesn't carry the applied design — an integration
+  test restores the tree, which once produced a pristine ISO from a "patched" run.
+- Report frame deltas only through `pikminlab.frames.rmse` (0..1 scale). A local
+  helper that skipped the /65535 division printed `1005.92` on a passing run.
+

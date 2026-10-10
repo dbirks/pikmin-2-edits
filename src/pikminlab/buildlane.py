@@ -6,6 +6,7 @@ Safety: every patch MUST be same-length so RARC/BMG structure is untouched
 (mesRes message text lives raw inside the decompressed RARC payload).
 """
 from __future__ import annotations
+import hashlib
 import shutil, subprocess, sys
 from io import BytesIO
 from pathlib import Path
@@ -22,6 +23,10 @@ ORIG_TREE = REPO / "workspace" / "extracted" / "root"
 # another 1.46 GiB while the tree is still on disk, so the lane now refuses to
 # start without headroom rather than risking the owner's OS.
 MIN_FREE_GIB = 6.0
+
+
+def sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
 
 
 def require_headroom(at: Path = REPO, need_gib: float = MIN_FREE_GIB) -> float:

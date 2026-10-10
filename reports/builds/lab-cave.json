@@ -1,0 +1,56 @@
+{
+  "baseline_iso": "pikmin2.iso",
+  "baseline_sha256": "5388b54a9c2d156c94bcfa80acd53b513288dc17e88c97a1edfb57ad25db661a",
+  "boot": {
+    "disc_id_read_at_0x80000000": "GPVE01",
+    "earlier_run_with_broken_rmse_scale": "reports/runs/2026-10-10T065815Z-headless-smoke",
+    "fresh_screenshots": 2,
+    "gate": "headless cold boot, Xvfb + -v OpenGL (ADR-0014)",
+    "lit_after_s": 30.0,
+    "result": "PASS",
+    "run_dir": "reports/runs/2026-10-10T065914Z-headless-smoke",
+    "scene_stats": {
+      "colors": 256,
+      "max": 1.0,
+      "mean": 0.0768
+    },
+    "shot_rmse": 0.01948,
+    "stray_pids": [],
+    "window_s": 2.0
+  },
+  "built_by": "pikminlab build --lane data",
+  "file_delta": [
+    {
+      "after_sha256": "73cfe4bebce7a73bd246aafcecb30c021be4e9f3ec9546b64c7aff5779118e71",
+      "before_sha256": "36de6f3b05065913464d256bd2745a2ef3a6948f96f0729c6b0ee51771b7f24a",
+      "bytes_after": 89481,
+      "bytes_before": 89485,
+      "patched_by": "forest-3-reprise",
+      "path": "files/user/Abe/Pellet/us/otakara_config.txt"
+    },
+    {
+      "after_sha256": "02fc11ea056d2b96ca015f883c9d40fbe30e3e9a47f0e6bef0dd758d31ebc90a",
+      "before_sha256": "a202d4a510704e280ffae9e351d4b17493e0bca781e75eed2292565436ae17f5",
+      "bytes_after": 7661,
+      "bytes_before": 7639,
+      "patched_by": "forest-3-reprise",
+      "path": "files/user/Mukki/mapunits/caveinfo/forest_3.txt"
+    }
+  ],
+  "free_gib_before": 0.0,
+  "iso": "builds/lab-cave.iso",
+  "iso_bytes": 1459978240,
+  "iso_sha256": "6a9da6425949d162c564bf816f92c8197253a8b25e04b8dfa50b8c3fc0f07174",
+  "lane": "data",
+  "repack_defects": {
+    "ascii_named_paths_intact": true,
+    "baseline_is_nkit_and_unusual_size_per_dolphin_verify": true,
+    "detail": "docs/adr/0019-repack-defects-and-build-provenance.md",
+    "iso_padded_to_full_dvd": true,
+    "non_ascii_filename_damage": 13,
+    "unreferenced_by_text_data": true
+  },
+  "repack_seconds": 31.8,
+  "source_tree": "workspace/extracted/root",
+  "video_backend": "OpenGL under Xvfb (headless, ADR-0014)"
+}

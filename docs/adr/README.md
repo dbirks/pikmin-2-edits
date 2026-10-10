@@ -48,3 +48,4 @@ Rules for every agent session:
 | 0016 | Cave data survey: real paths under `files/`, header prefix is not a row count, edits are in-place patches | accepted |
 | 0017 | Game-level input proven by a categorical scene-state change (23 → 97,901 colours); per-button and stick still open | accepted |
 | 0018 | Cave compiler amendments: prefix = floor count, unbraced table rows, latin-1 byte-safe edits, f007 = the exit | accepted |
+| 0019 | Repack provenance: pyisotools damages non-ASCII filenames (13 dev assets), ISO padding vs NKit baseline, pre-build tree guard | accepted |

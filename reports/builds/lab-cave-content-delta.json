@@ -1,0 +1,102 @@
+{
+  "baseline_files": 2768,
+  "baseline_iso": "pikmin2.iso",
+  "baseline_iso_sha256": "5388b54a9c2d156c94bcfa80acd53b513288dc17e88c97a1edfb57ad25db661a",
+  "built_files": 2766,
+  "built_iso": "builds/lab-cave.iso",
+  "built_iso_sha256": "6a9da6425949d162c564bf816f92c8197253a8b25e04b8dfa50b8c3fc0f07174",
+  "delta_is_exactly_the_patched_files": true,
+  "expected_nodes": [
+    "user/Abe/Pellet/us/otakara_config.txt",
+    "user/Mukki/mapunits/caveinfo/forest_3.txt"
+  ],
+  "extracted_comparison": [
+    {
+      "baseline_sha256": "a202d4a510704e280ffae9e351d4b17493e0bca781e75eed2292565436ae17f5",
+      "baseline_size": 7639,
+      "built_matches_tree": true,
+      "built_sha256": "02fc11ea056d2b96ca015f883c9d40fbe30e3e9a47f0e6bef0dd758d31ebc90a",
+      "built_size": 7661,
+      "tree_path": "files/user/Mukki/mapunits/caveinfo/forest_3.txt",
+      "tree_sha256": "02fc11ea056d2b96ca015f883c9d40fbe30e3e9a47f0e6bef0dd758d31ebc90a"
+    },
+    {
+      "baseline_sha256": "36de6f3b05065913464d256bd2745a2ef3a6948f96f0729c6b0ee51771b7f24a",
+      "baseline_size": 89485,
+      "built_matches_tree": true,
+      "built_sha256": "73cfe4bebce7a73bd246aafcecb30c021be4e9f3ec9546b64c7aff5779118e71",
+      "built_size": 89481,
+      "tree_path": "files/user/Abe/Pellet/us/otakara_config.txt",
+      "tree_sha256": "73cfe4bebce7a73bd246aafcecb30c021be4e9f3ec9546b64c7aff5779118e71"
+    }
+  ],
+  "filename_damage": {
+    "ascii_only_among_mangled": [
+      "",
+      "user/Abe/map/newtest/nonloop/"
+    ],
+    "ascii_only_among_missing": [],
+    "longest_baseline_name": 49,
+    "longest_built_name": 92,
+    "mangled_paths": [
+      "",
+      "user/Abe/map/newtest/nonloop/",
+      "user/Abe/map/newtest/\u7d2b\uff11\uff10\uff10inittutorial",
+      "user/Mukki/mapunits/caveinfo/\u30d1\u30f3\u30e2\u30c9\u30ad\u30c6\u30b9\u6575\u30c1\u30a7\u30c3\u30afcavunits",
+      "user/Mukki/mapunits/caveinfo/\u6575\u30c1\u30a7\u30c3\u30afcavunits",
+      "user/Nishimura/Camera/\u5f15\u304d\u30ab\u30e1\u30e9camera\u64ae\u5f71cameraParms.\u672c\u7269 groundCameraParms.\u672c\u7269caveCameraParms.Rumble",
+      "user/Nishimura/Camera/\u64ae\u5f71cameraParms.\u672c\u7269 groundCameraParms.\u672c\u7269caveCameraParms.Rumble",
+      "user/Nishimura/Camera/\u672c\u7269 groundCameraParms.\u672c\u7269caveCameraParms.Rumble",
+      "user/Nishimura/Camera/\u672c\u7269caveCameraParms.Rumble",
+      "\u30d7\u30ed\u30c0\u30af\u30c8gameC\u30de\u30ea\u30af\u30e9-Develop-gameCon\u30de\u30ea\u30af\u30e9-Release-gameConfig.ini",
+      "\u30de\u30ea\u30af\u30e9-Develop-gameCon\u30de\u30ea\u30af\u30e9-Release-gameConfig.ini"
+    ],
+    "missing_paths": [
+      "user/Abe/map/newtest/nonloop/\u30b3\u30d4\u30fc (2) \u301c 0-0.txt",
+      "user/Abe/map/newtest/nonloop/\u30b3\u30d4\u30fc \u301c 0-0.txt",
+      "user/Abe/map/newtest/nonloop/\uff17\u7a2e\uff11\uff10\u672c0-0.txt",
+      "user/Abe/map/newtest/\u7d2b\uff11\uff10\uff10initgen.txt",
+      "user/Mukki/mapunits/caveinfo/\u30d1\u30f3\u30e2\u30c9\u30ad\u30c6\u30b9\u30c8caveinfo.txt",
+      "user/Mukki/mapunits/caveinfo/\u6575\u30c1\u30a7\u30c3\u30afcaveinfo.txt",
+      "user/Nishimura/Camera/\u5f15\u304d\u30ab\u30e1\u30e9cameraParms.txt",
+      "user/Nishimura/Camera/\u64ae\u5f71cameraParms.txt",
+      "user/Nishimura/Camera/\u672c\u7269 groundCameraParms.txt",
+      "user/Nishimura/Camera/\u672c\u7269caveCameraParms.txt",
+      "\u30b9\u30ca\u30c3\u30d7\u30b7\u30e7\u30c3\u30c8gameConfig.ini",
+      "\u30d7\u30ed\u30c0\u30af\u30c8gameConfig.ini",
+      "\u30de\u30ea\u30af\u30e9-Develop-gameConfig.ini"
+    ]
+  },
+  "only_in_baseline": [
+    "user/Abe/map/newtest/nonloop/\u30b3\u30d4\u30fc (2) \u301c 0-0.txt",
+    "user/Abe/map/newtest/nonloop/\u30b3\u30d4\u30fc \u301c 0-0.txt",
+    "user/Abe/map/newtest/nonloop/\uff17\u7a2e\uff11\uff10\u672c0-0.txt",
+    "user/Abe/map/newtest/\u7d2b\uff11\uff10\uff10initgen.txt",
+    "user/Mukki/mapunits/caveinfo/\u30d1\u30f3\u30e2\u30c9\u30ad\u30c6\u30b9\u30c8caveinfo.txt",
+    "user/Mukki/mapunits/caveinfo/\u6575\u30c1\u30a7\u30c3\u30afcaveinfo.txt",
+    "user/Nishimura/Camera/\u5f15\u304d\u30ab\u30e1\u30e9cameraParms.txt",
+    "user/Nishimura/Camera/\u64ae\u5f71cameraParms.txt",
+    "user/Nishimura/Camera/\u672c\u7269 groundCameraParms.txt",
+    "user/Nishimura/Camera/\u672c\u7269caveCameraParms.txt",
+    "\u30b9\u30ca\u30c3\u30d7\u30b7\u30e7\u30c3\u30c8gameConfig.ini",
+    "\u30d7\u30ed\u30c0\u30af\u30c8gameConfig.ini",
+    "\u30de\u30ea\u30af\u30e9-Develop-gameConfig.ini"
+  ],
+  "only_in_built": [
+    "",
+    "user/Abe/map/newtest/nonloop/",
+    "user/Abe/map/newtest/\u7d2b\uff11\uff10\uff10inittutorial",
+    "user/Mukki/mapunits/caveinfo/\u30d1\u30f3\u30e2\u30c9\u30ad\u30c6\u30b9\u6575\u30c1\u30a7\u30c3\u30afcavunits",
+    "user/Mukki/mapunits/caveinfo/\u6575\u30c1\u30a7\u30c3\u30afcavunits",
+    "user/Nishimura/Camera/\u5f15\u304d\u30ab\u30e1\u30e9camera\u64ae\u5f71cameraParms.\u672c\u7269 groundCameraParms.\u672c\u7269caveCameraParms.Rumble",
+    "user/Nishimura/Camera/\u64ae\u5f71cameraParms.\u672c\u7269 groundCameraParms.\u672c\u7269caveCameraParms.Rumble",
+    "user/Nishimura/Camera/\u672c\u7269 groundCameraParms.\u672c\u7269caveCameraParms.Rumble",
+    "user/Nishimura/Camera/\u672c\u7269caveCameraParms.Rumble",
+    "\u30d7\u30ed\u30c0\u30af\u30c8gameC\u30de\u30ea\u30af\u30e9-Develop-gameCon\u30de\u30ea\u30af\u30e9-Release-gameConfig.ini",
+    "\u30de\u30ea\u30af\u30e9-Develop-gameCon\u30de\u30ea\u30af\u30e9-Release-gameConfig.ini"
+  ],
+  "size_differing_paths": [
+    "user/Abe/Pellet/us/otakara_config.txt",
+    "user/Mukki/mapunits/caveinfo/forest_3.txt"
+  ]
+}

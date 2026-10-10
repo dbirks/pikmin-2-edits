@@ -3,7 +3,8 @@
 *.gcm
 *.gcz
 workspace/
-builds/
+# built ISOs (never committed); hash manifests live in reports/builds/
+/builds/
 patches/generated/
 
 # Emulator profiles, saves, memory cards
