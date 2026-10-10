@@ -187,10 +187,16 @@ def idle_watchdog():
 
 def run(iso: Path, port: int, idle_timeout_s: float = 300) -> int:
     global SESSION
-    SESSION = Session(iso, REPO / "reports" / "runs" /
-                      (time.strftime("%Y-%m-%dT%H%M%SZ") + "-serve"), idle_timeout_s)
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    httpd = socketserver.ThreadingTCPServer(("127.0.0.1", port), Handler)  # bind FIRST
+    try:
+        SESSION = Session(iso, REPO / "reports" / "runs" /
+                          (time.strftime("%Y-%m-%dT%H%M%SZ") + "-serve"), idle_timeout_s)
+    except Exception:
+        httpd.server_close()
+        raise
     threading.Thread(target=idle_watchdog, daemon=True).start()
-    with socketserver.ThreadingTCPServer(("127.0.0.1", port), Handler) as httpd:
+    with httpd:
         print(json.dumps({"serving": port, "window": SESSION.window,
                           "run_dir": str(SESSION.run_dir)}), flush=True)
         httpd.serve_forever()
