@@ -34,6 +34,15 @@ cave can be compiled into the extracted tree instead of guessed from wiki pages.
   with existing `f008`/`f009` resources; encoding/CRLF/tabs preserved; static
   validation before repack; static validation never counts as an in-game pass.
 
+## Room-layout files (`mapunits/units/*.txt`), also surveyed
+`N # number of units` then one `{ ... }` record per room with positional fields
+(version, foldername, dX/dZ, room type, flags, num doors, index,
+dir/offs/wpindex, door links). Here the header count IS the record count
+(`all_units_tsuchi.txt`: declared 27, rooms 27) — unlike the caveinfo prefix.
+Because a record's door block length follows `num_doors`, fixed positions past
+the door count must not be over-trusted; `cavedata.ROOM_FIELDS` is documented as
+best-effort and the validator treats door data as a token tail.
+
 ## Evidence
 `design/caves/inventory.md`, `design/caves/caveinfo-inventory.json`,
 `src/pikminlab/cavedata.py`, `tests/unit/test_cavedata.py` (7 passed; fixture is

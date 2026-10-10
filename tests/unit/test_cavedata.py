@@ -61,3 +61,22 @@ def test_real_extract_if_present():
     for p in inv_files:
         for c in cd.check_floor_counts(p.read_bytes()):
             assert c["ok"], f"{p.name}: FloorInfo block missing {{_eof}}"
+
+
+UNITS_FIX = Path(__file__).resolve().parents[1] / "fixtures" / "cave" / "units_synthetic.txt"
+
+
+def test_units_header_count_matches_rooms():
+    u = cd.parse_units(UNITS_FIX.read_bytes())
+    assert u["declared"] == 2 == len(u["rooms"])
+    assert [r["_name"] for r in u["rooms"]] == ["room_a", "room_b"]
+    assert u["rooms"][0]["foldername"] == "room_a" and u["rooms"][0]["dX"] == "2"
+    assert u["rooms"][1]["num_doors"] == "0"
+
+
+def test_units_door_fields_are_positional_and_therefore_trusted_carefully():
+    # door_spec/door_links are fixed positions here, but a real record's door
+    # block length follows num_doors; the validator must not assume more fields
+    # than ROOM_FIELDS when a room declares doors.
+    u = cd.parse_units(UNITS_FIX.read_bytes())
+    assert set(cd.ROOM_FIELDS) >= set(u["rooms"][0]) - {"_name"}

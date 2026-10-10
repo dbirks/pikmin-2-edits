@@ -194,3 +194,56 @@ def check_floor_counts(raw: bytes) -> list[dict]:
                     "matches_declared": b["declared"] == len(rows),
                     "ok": any(e["key"] == "_eof" for e in b["entries"])})
     return out
+
+
+UNITS_REL = Path("files/user/Mukki/mapunits/units")
+ROOM_FIELDS = ("version", "foldername", "dX", "dZ", "room_type", "flags",
+               "num_doors", "index", "door_spec", "door_links")
+
+
+def parse_units(raw: bytes) -> dict:
+    """Room-layout file (`f008` target): `N # number of units` then one `{...}`
+    record per room with positional fields (version, foldername, dX/dZ, room
+    type, flags, num doors, index, dir/offs/wpindex, door links).
+
+    Doors and links are the cave's room graph, which is what t3 has to keep
+    connected and exit-wired, so they come back as parsed fields. The `# name`
+    comment above a record is kept as `_name` for humans.
+    """
+    text = raw.decode("shift_jis", errors="replace")
+    declared = None
+    rooms: list[dict] = []
+    cur: list[str] | None = None
+    name: str | None = None
+    for line in text.splitlines():
+        s = line.strip()
+        if s.startswith("#"):
+            tail = s.lstrip("#").strip()
+            if tail:
+                name = tail
+            elif name is None:
+                continue
+            if "number of units" in s:
+                head = s.split("#")[0].strip()
+                if head.isdigit():
+                    declared = int(head)
+            continue
+        if "number of units" in s:
+            head = s.split("#")[0].strip()
+            if head.isdigit():
+                declared = int(head)
+            continue
+        if s == "{":
+            cur, rooms = [], rooms
+            continue
+        if s == "}":
+            if cur is not None:
+                vals = " ".join(cur).split()
+                room = dict(zip(ROOM_FIELDS, vals))
+                room["_name"] = name or "?"
+                rooms.append(room)
+            cur, name = None, None
+            continue
+        if cur is not None:
+            cur.append(s.split("#")[0].strip())
+    return {"declared": declared, "rooms": rooms}

@@ -58,6 +58,11 @@ assume ASCII paths.
   `King_caveinfo.txt` / `Queen_caveinfo.txt` (15 each),
   `ch_MUKI_houdai.txt`, `ch_NARI_03toy.txt`, `kfes_*` (12–19).
 
+Room layouts (`f008` targets) live in `files/user/Mukki/mapunits/units/*.txt`:
+`N # number of units` + one `{}` record per room (version, foldername, dX/dZ,
+room type, flags, num doors, index, dir/offs/wpindex, door links). Here the
+header count does match the records (27/27 in `all_units_tsuchi.txt`).
+
 ## Rules the compile step must respect (from AGENTS.md + this survey)
 
 1. Reuse an existing slot; do not mint new cave IDs or resources yet.
