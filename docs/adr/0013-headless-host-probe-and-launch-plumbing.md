@@ -59,6 +59,9 @@ Full machine record: `reports/environment-headless.json`.
    Intel iGPU + DRI nodes, so **`vulkan-intel` (ANV) is the better first
    candidate than software rendering**. If ANV fails under Xvfb, fall back to
    `-v OpenGL` (llvmpipe via `mesa`).
+   > **Retired by ADR-0015 §2:** `vulkan-intel` was installed and ANV still
+   > cannot present under Xvfb (Xvfb implements no DRI3). OpenGL/llvmpipe is
+   > the working headless backend; budget ~100 s for content to appear.
 
 ## Decision: launch plumbing (agent-side, in this commit)
 

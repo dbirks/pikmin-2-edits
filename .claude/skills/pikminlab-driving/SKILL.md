@@ -14,28 +14,34 @@ description: Use whenever you need to drive Pikmin 2 live in Dolphin for explora
   must be empty. Host quirk: use `/bin/kill -KILL` (the agent shell's
   `kill` builtin silently fails).
 
-## Headless launch (no monitor, no display server) — ADR-0013/0014
+## Headless launch (no monitor, no display server) — ADR-0013/0014/0015
 ```bash
-# The ONLY proven headless combo: OpenGL (llvmpipe) under Xvfb. Budget ~100 s.
-PIKMINLAB_VIDEO_BACKEND=OpenGL \
-  xvfb-run -a -s "-screen 0 1280x960x24" \
-  uv run python scripts/headless_smoke.py pikmin2.iso
-# daemon path (needs uinput, so until the udev rule is live):
-PIKMINLAB_XVFB=1 PIKMINLAB_VIDEO_BACKEND=OpenGL uv run pikminlab serve <iso> --idle 300
+# ONLY proven combo: OpenGL (llvmpipe) under Xvfb. Budget ~100 s, not 17 s.
+PIKMINLAB_VIDEO_BACKEND=OpenGL xvfb-run -a -s "-screen 0 1280x960x24" \
+  uv run pikminlab serve <iso> --idle 300          # wrap the DAEMON
+PIKMINLAB_VIDEO_BACKEND=OpenGL xvfb-run -a -s "-screen 0 1280x960x24" \
+  uv run python scripts/headless_smoke.py <iso>    # gate probe (JSON verdict)
 ```
-- `-v Vulkan` on a box with no ICD → **no render window ever** (verified FAIL,
-  clean teardown). Xvfb has no DRI3, so Mesa gives llvmpipe: window in ~2 s,
-  lit warning-text frame by ~30 s, full-colour attract content ~100-160 s.
-  Laptop timings (17 s to warning) DO NOT apply — never assert early.
-- `DISPLAY= PIKMINLAB_XVFB=1` wraps only the *emulator child*, so the daemon
-  keeps its HTTP port and capture tools still see the child's DISPLAY.
-- **Before any of this works on a fresh Arch box**: `dolphin-emu` must exec.
-  `error while loading shared libraries: libavformat.so.63` + `GLIBC_2.44 not
-  found` = partial upgrade; owner runs `sudo pacman -Syu`. PATH presence is NOT
-  health — `doctor` exec-probes it.
-- `/dev/uinput` needs BOTH `usermod -aG input` AND a rule
-  (`KERNEL=="uinput", GROUP="input", MODE="0660"`) plus a udev reload; writing
-  the file alone leaves the node `0600 root:root`.
+- Wrap the **daemon**, never just the child: `xvfb-run` doesn't tell the parent
+  which display it chose, so `xdotool`/`magick` in the daemon would be blind.
+  `PIKMINLAB_DISPLAY=:99` pins a display you started yourself.
+- `-v Vulkan` is a dead end under Xvfb even with `vulkan-intel` installed:
+  `MESA: info: vulkan: No DRI3 support detected - required for presentation` →
+  no render window ever. Don't re-test; use OpenGL.
+- Boot phases (llvmpipe): window ~2 s → dark screen w/ warning text ~30 s →
+  full-colour content ~100-160 s. Never assert before the frame is *lit*.
+- Fresh Arch hosts need **`modprobe uinput`**, not just permissions: Arch never
+  loads it, so `/dev/uinput` may exist as a stale `0600 root:root` node, no
+  uevent ever fires, and a `99-uinput.rules` file does nothing.
+  `echo uinput | sudo tee /etc/modules-load.d/uinput.conf && sudo modprobe uinput`
+  → then the rule applies: `crw-rw---- root input`. Check with
+  `grep uinput /proc/misc` (absent = module not loaded).
+- `dolphin-emu` must *exec*: `libavformat.so.63 not found` / `GLIBC_2.44 not
+  found` = partial upgrade → owner runs `sudo pacman -Syu`. `doctor` exec-probes.
+- Readiness for the daemon is polled over HTTP (`GET /state`), never by reading
+  the child's stdout: `uv run` reparents pikminlab and the pipe EOFs instantly.
+- If Dolphin is killed from outside, the old daemon kept the uinput pad with a
+  zombie child; `idle_watchdog` now detects `proc.poll()` and runs `stop()`.
 
 ## Numeric scene oracle (for sessions whose model cannot see images)
 If the reviewer model rejects image input (e.g. `qwen3-8-flash-next` here), the
@@ -49,6 +55,18 @@ magick compare -metric RMSE -resize 320x240! a.png b.png null:   # 1-2% = UI pul
 ```
 Freshness = different sha256 **and** both frames `lit`: a hash-only check passed
 bogus "fresh" captures of a still-black framebuffer.
+
+## Proving input landed (ADR-0015)
+- **Device-level (fast, reliable):** `scripts/pad_visibility_oracle.py` reads
+  Dolphin's own `/proc/<pid>/fd` — SDL opens every `/dev/input/event*`, so if our
+  pad's `eventNN` (resolved from `/proc/bus/input/devices` by device name;
+  `UInput.devnode` lies, it reports `/dev/uinput`) is in that list, the pad is
+  live. Verified here: `pad_opened_by_dolphin=true`.
+- **Whole-frame RMSE is NOT an input oracle.** Measured on this host: dwell
+  (no input) deltas up to 0.113 because the attract movie animates itself, while
+  two presses scored 0.000 and 0.005 because they landed mid-transition. Design
+  behavioural assertions only on screens that *wait* for input, on a fixed crop
+  (dialog cursor highlight, menu → subscreen), never whole-frame diffs over video.
 
 ## Session lifecycle
 ```bash

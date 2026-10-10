@@ -44,3 +44,4 @@ Rules for every agent session:
 | 0012 | G2 fully closed: single-asset change observed in-game | accepted |
 | 0013 | Headless host probe: broken Dolphin libs + uinput perms block runtime; DISPLAY/xvfb plumbing added | accepted |
 | 0014 | Headless video backend measured: OpenGL/llvmpipe boots under Xvfb, Vulkan gets no window | accepted |
+| 0015 | uinput module (not permissions) was the blocker; Vulkan cannot present under Xvfb; scene-diff is not an input oracle | accepted |

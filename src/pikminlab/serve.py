@@ -26,7 +26,6 @@ from .dolphin import (REPO, PROFILE, GC_MAPPING, GC_PAD_INI, default_video_backe
 from .vpad import VirtualPad
 
 GC_BUTTON_MAP = None  # populated lazily (evdev import)
-XVFB_SCREEN = "-screen 0 1280x960x24"  # ADR-0013: headless virtual display size
 
 
 def _btn_map():
@@ -48,15 +47,19 @@ class Session:
         self.pad = VirtualPad()
         (PROFILE / "Config" / "GCPadNew.ini").write_text(GC_PAD_INI)
         env = {**display_env(), "SDL_GAMECONTROLLERCONFIG": GC_MAPPING + "\n"}
-        cmd = ["dolphin-emu", "-u", str(PROFILE), "-e", str(iso), "-b",
-               "-v", default_video_backend()]
-        if env.get("PIKMINLAB_XVFB") == "1":
-            # Headless: run the emulator inside its own Xvfb (ADR-0013). The
-            # daemon inherits its DISPLAY for xdotool/magick, so capture works.
-            import shlex
-            cmd = ["xvfb-run", "-a", "-s", shlex.quote(XVFB_SCREEN), "--"] + cmd
-        self.proc = subprocess.Popen(cmd, env=env,
-                                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        # Headless: wrap the DAEMON (`xvfb-run -a uv run pikminlab serve ...`) or
+        # pin PIKMINLAB_DISPLAY, so this process AND the emulator child AND the
+        # xdotool/magick capture helpers share one DISPLAY. Wrapping only the
+        # child cannot work: xvfb-run never tells us the display it chose.
+        from .dolphin import _sh
+        geo = _sh("xdotool", "getdisplaygeometry", env=env)
+        if geo.returncode != 0:
+            raise RuntimeError(f"NO_DISPLAY: DISPLAY={env['DISPLAY']!r} unreachable "
+                               f"(xdotool: {geo.stderr.strip()[:80]}). Run under xvfb-run.")
+        self.proc = subprocess.Popen(
+            ["dolphin-emu", "-u", str(PROFILE), "-e", str(iso), "-b",
+             "-v", default_video_backend()],
+            env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         self.window = ""
         for _ in range(30):
             self.window = find_render_window()
@@ -186,6 +189,12 @@ def _shutdown_server():
 def idle_watchdog():
     while SESSION and SESSION.alive:
         time.sleep(5)
+        # The emulator dying on its own (crash, or someone SIGKILLing it) must
+        # not leave a daemon holding the one-and-only uinput pad: /state says
+        # alive:false, but only stop() closes the pad and reaps the zombie.
+        if SESSION and SESSION.proc.poll() is not None:
+            SESSION.stop()
+            os._exit(1)
         if SESSION and time.monotonic() - SESSION.last_action > SESSION.idle_timeout_s:
             SESSION.stop()
             os._exit(0)
