@@ -1,7 +1,7 @@
 # ADR-0013: Headless host probe — what actually breaks the loop, and the launch plumbing to fix it
 
 **Date:** 2026-10-10
-**Status:** proposed (launch plumbing written; the video-backend choice is NOT yet measured)
+**Status:** accepted (see ADR-0014 for the headless video-backend measurement this plumbing made possible)
 
 ## Context
 

@@ -14,22 +14,41 @@ description: Use whenever you need to drive Pikmin 2 live in Dolphin for explora
   must be empty. Host quirk: use `/bin/kill -KILL` (the agent shell's
   `kill` builtin silently fails).
 
-## Headless launch (no monitor, no display server) — ADR-0013
+## Headless launch (no monitor, no display server) — ADR-0013/0014
 ```bash
-# Inherit-the-display rule: never hardcode :0 again. Either wrap the daemon:
-DISPLAY= PIKMINLAB_XVFB=1 PIKMINLAB_VIDEO_BACKEND=Vulkan \
-  uv run pikminlab serve <iso> --idle 120
-# or drive an Xvfb you manage yourself: xvfb-run -a -s "-screen 0 1280x960x24" ...
+# The ONLY proven headless combo: OpenGL (llvmpipe) under Xvfb. Budget ~100 s.
+PIKMINLAB_VIDEO_BACKEND=OpenGL \
+  xvfb-run -a -s "-screen 0 1280x960x24" \
+  uv run python scripts/headless_smoke.py pikmin2.iso
+# daemon path (needs uinput, so until the udev rule is live):
+PIKMINLAB_XVFB=1 PIKMINLAB_VIDEO_BACKEND=OpenGL uv run pikminlab serve <iso> --idle 300
 ```
-- `serve` with `PIKMINLAB_XVFB=1` wraps only the *emulator child*, so the
-  daemon's HTTP port stays on the parent env and the child's exported `DISPLAY`
-  still reaches `xdotool`/`magick import` for capture.
+- `-v Vulkan` on a box with no ICD → **no render window ever** (verified FAIL,
+  clean teardown). Xvfb has no DRI3, so Mesa gives llvmpipe: window in ~2 s,
+  lit warning-text frame by ~30 s, full-colour attract content ~100-160 s.
+  Laptop timings (17 s to warning) DO NOT apply — never assert early.
+- `DISPLAY= PIKMINLAB_XVFB=1` wraps only the *emulator child*, so the daemon
+  keeps its HTTP port and capture tools still see the child's DISPLAY.
 - **Before any of this works on a fresh Arch box**: `dolphin-emu` must exec.
   `error while loading shared libraries: libavformat.so.63` + `GLIBC_2.44 not
   found` = partial upgrade; owner runs `sudo pacman -Syu`. PATH presence is NOT
   health — `doctor` exec-probes it.
-- Software Vulkan (lavapipe) has no Arch package; on an Intel/AMD iGPU host
-  install `vulkan-intel`/`vulkan-radeon` and try `-v Vulkan`, else `-v OpenGL`.
+- `/dev/uinput` needs BOTH `usermod -aG input` AND a rule
+  (`KERNEL=="uinput", GROUP="input", MODE="0660"`) plus a udev reload; writing
+  the file alone leaves the node `0600 root:root`.
+
+## Numeric scene oracle (for sessions whose model cannot see images)
+If the reviewer model rejects image input (e.g. `qwen3-8-flash-next` here), the
+LOOK step is impossible; assert on statistics and keep the PNGs for a human:
+```bash
+magick identify -format "mean=%[fx:mean] colors=%k max=%[fx:maxima]\n" shot.png
+# black/idle framebuffer: mean=0 colors=1  -> NOT a frame
+# lit text screen:        mean>0.05 colors=256  (bright-content bbox via -threshold 60% -format "%@")
+# full scene:             mean~0.28 colors>100000
+magick compare -metric RMSE -resize 320x240! a.png b.png null:   # 1-2% = UI pulse band
+```
+Freshness = different sha256 **and** both frames `lit`: a hash-only check passed
+bogus "fresh" captures of a still-black framebuffer.
 
 ## Session lifecycle
 ```bash
