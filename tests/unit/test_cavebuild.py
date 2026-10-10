@@ -34,8 +34,10 @@ def tree(tmp_path):
             d = tmp_path / p.relative_to(FX)
             d.parent.mkdir(parents=True, exist_ok=True)
             d.write_bytes(p.read_bytes())
+    saved = cb.BACKUP_ROOT
     cb.BACKUP_ROOT = tmp_path / "cave-patches"      # keep tests out of workspace/
-    return tmp_path
+    yield tmp_path
+    cb.BACKUP_ROOT = saved      # module global: leaking it breaks the integration test
 
 
 def test_compile_is_deterministic(tree):

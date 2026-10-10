@@ -1,6 +1,6 @@
 """pikminlab CLI — machine-readable results on stdout (master spec §10)."""
 from __future__ import annotations
-import argparse, json, shutil, subprocess, sys
+import argparse, json, os, shutil, subprocess, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -137,6 +137,94 @@ def _drive(args: argparse.Namespace) -> int:
     except Exception as ex:
         print({"status": "FAIL", "error": str(ex)})
         return 1
+
+
+PIN_FILE = Path("reports/builds/last-passing.json")
+LEVELS = ("data", "boot", "play")
+
+
+def _now() -> str:
+    from datetime import datetime, timezone
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _pin_record(iso: Path, level: str, evidence: list[str], note: str) -> dict:
+    from . import buildlane
+    return {"iso": str(iso), "sha256": buildlane.sha256(iso.read_bytes()),
+            "bytes": iso.stat().st_size, "verified_level": level,
+            "evidence": evidence, "note": note}
+
+
+def cmd_pin(args: argparse.Namespace) -> int:
+    """Record a build as the last *verified* one, with its evidence paths.
+
+    Verification level is explicit and ordered (`data` < `boot` < `play`), because
+    a repacked image that boots is not a build anyone has played, and AGENTS.md
+    forbids letting "built" leak into "tested". Write-once per build hash: pinning
+    the same hash again with a HIGHER level is allowed (more evidence), a lower or
+    equal one is refused, so a failing run can never demote or silently rewrite the
+    pinned record. `reports/` is tracked and holds hashes/paths only.
+    """
+    import json
+    iso = Path(args.build)
+    if not iso.is_file():
+        return _emit("BLOCKED", reason=f"no such build: {iso}")
+    ev_missing = [e for e in args.evidence if not Path(e).exists()]
+    if ev_missing:
+        return _emit("BLOCKED", missing_evidence=ev_missing,
+                     reason="every --evidence path must exist; a manifest without evidence is a claim")
+    rec = _pin_record(iso, args.level, args.evidence, args.note)
+    PIN_FILE.parent.mkdir(parents=True, exist_ok=True)
+    hist = {"entries": []}
+    if PIN_FILE.is_file():
+        hist = json.loads(PIN_FILE.read_text())
+    prior = next((e for e in hist["entries"] if e["sha256"] == rec["sha256"]), None)
+    if prior:
+        if LEVELS.index(args.level) <= LEVELS.index(prior["verified_level"]):
+            return _emit("REFUSED", sha256=rec["sha256"], prior=prior["verified_level"],
+                         reason="already pinned at >= this level; manifests are immutable per build hash")
+        prior.update({"verified_level": args.level, "evidence": sorted(set(prior["evidence"]) | set(args.evidence)),
+                      "note": args.note or prior["note"], "repinned_at": _now()})
+    else:
+        rec["pinned_at"] = _now()
+        hist["entries"].append(rec)
+    hist["last_passing"] = max(hist["entries"], key=lambda e: (LEVELS.index(e["verified_level"]), e["pinned_at"]))
+    PIN_FILE.write_text(json.dumps(hist, indent=2, sort_keys=True) + "\n")
+    return _emit("PASS", pinned=rec["sha256"][:16], verified_level=args.level,
+                 manifest=str(PIN_FILE), entries=len(hist["entries"]))
+
+
+def cmd_play(args: argparse.Namespace) -> int:
+    """Launch the pinned last-passing build in the HUMAN profile.
+
+    Two hard rules from AGENTS.md: the immutable manifest's hash must match the
+    bytes about to run, and the agent profile (`runtime/dolphin-agent`, with its
+    test memory card and forced pad config) must not be involved — this uses the
+    operator's own Dolphin user directory, so the agent's saves/pads are untouched.
+    """
+    import hashlib, json
+    if not args.last_passing:
+        return _emit("NOT_TESTED", reason="only --last-passing is implemented")
+    if not PIN_FILE.is_file():
+        return _emit("BLOCKED", reason=f"nothing pinned yet: {PIN_FILE} missing; run `pikminlab pin`")
+    hist = json.loads(PIN_FILE.read_text())
+    ent = hist.get("last_passing") or {}
+    iso = Path(ent.get("iso", ""))
+    if not iso.is_file():
+        return _emit("BLOCKED", reason=f"pinned build missing from disk: {iso}", manifest=str(PIN_FILE))
+    got = hashlib.sha256(iso.read_bytes()).hexdigest()
+    if got != ent["sha256"]:
+        return _emit("FAIL", reason="pinned build hash mismatch; refusing to launch",
+                     expected=ent["sha256"], got=got)
+    cmd = ["dolphin-emu", "-e", str(iso.resolve())]        # no -u: the human's own profile
+    if args.dry_run or not os.environ.get("DISPLAY"):
+        return _emit("NEEDS_HUMAN", command=" ".join(cmd), sha256=got[:16],
+                     verified_level=ent["verified_level"],
+                     profile="operator default (~/.config/Dolphin) — agent profile untouched",
+                     reason=("dry run" if args.dry_run else
+                             "no DISPLAY in this environment: the agent's session is headless; "
+                             "run the printed command on your own desktop"))
+    os.execvp(cmd[0], cmd)                                # hand the screen to the human
 
 
 def cmd_build(args: argparse.Namespace) -> int:
@@ -282,6 +370,18 @@ def main(argv=None) -> int:
     pb.add_argument("--allow-stale", action="store_true",
                     help="build even if the tree does not carry an applied cave design")
     pb.set_defaults(fn=cmd_build)
+
+    pp = sub.add_parser("pin")
+    pp.add_argument("--build", default="builds/lab-cave.iso")
+    pp.add_argument("--level", default="boot", choices=list(LEVELS))
+    pp.add_argument("--evidence", nargs="*", default=[])
+    pp.add_argument("--note", default="")
+    pp.set_defaults(fn=cmd_pin)
+
+    pl = sub.add_parser("play")
+    pl.add_argument("--last-passing", action="store_true")
+    pl.add_argument("--dry-run", action="store_true")
+    pl.set_defaults(fn=cmd_play)
 
     pc = sub.add_parser("cave")
     pc.add_argument("act", choices=["compile", "validate", "apply", "restore"])

@@ -196,3 +196,22 @@ PIKMINLAB_VIDEO_BACKEND=OpenGL xvfb-run -a -s "-screen 0 1280x960x24" \
 - Report frame deltas only through `pikminlab.frames.rmse` (0..1 scale). A local
   helper that skipped the /65535 division printed `1005.92` on a passing run.
 
+## Pinning a build and handing it to a human (t7)
+```bash
+uv run pikminlab pin --build builds/lab-cave.iso --level boot \
+    --evidence reports/builds/lab-cave.json reports/builds/lab-cave-content-delta.json \
+               reports/runs/<boot-gate-dir> docs/adr/0019-....md --note "what/why/limits"
+uv run pikminlab play --last-passing --dry-run     # prints the human command + verified hash
+```
+- Levels are ordered `data` < `boot` < `play`; pin records the ISO sha256, byte size
+  and evidence paths in `reports/builds/last-passing.json` (tracked: hashes only).
+- The manifest is **immutable per build hash**: re-pin at an equal/lower level is
+  REFUSED, only more evidence may amend it. Evidence paths must exist on disk.
+- `play` re-hashes the ISO and FAILs on mismatch, then launches `dolphin-emu -e <iso>`
+  with **no `-u` flag** so the operator's own profile is used — never
+  `runtime/dolphin-agent` (its test memory card and forced pad config stay untouched).
+  Headless (no DISPLAY) => NEEDS_HUMAN with the exact command; that is the correct
+  end state, not a failure.
+- Never pin `--level play` unless a human or an input-verified lane saw it played.
+  Current pin: `6a9da642…` at `boot` (input lane blocked, ADR-0020).
+

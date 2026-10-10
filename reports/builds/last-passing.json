@@ -1,0 +1,32 @@
+{
+  "entries": [
+    {
+      "bytes": 1459978240,
+      "evidence": [
+        "reports/builds/lab-cave.json",
+        "reports/builds/lab-cave-content-delta.json",
+        "reports/runs/2026-10-10T065914Z-headless-smoke",
+        "docs/adr/0019-repack-defects-and-build-provenance.md"
+      ],
+      "iso": "builds/lab-cave.iso",
+      "note": "Reuses cave slot f_03 (7 floors; haniwa + return fountain added on floor 1, makigai re-skinned with the Rubber Duck model). Verified: data lane (62 checks, 0 problems), deterministic repack with byte-exact per-file delta, headless cold boot (GPVE01 read, lit+fresh captures, clean teardown). NOT play-verified: game-level input is unattributable on this headless host (ADR-0020), so the input-only E2E lane (t5) is BLOCKED and no playability claim is made.",
+      "pinned_at": "2026-10-10T07:44:05.874291+00:00",
+      "sha256": "6a9da6425949d162c564bf816f92c8197253a8b25e04b8dfa50b8c3fc0f07174",
+      "verified_level": "boot"
+    }
+  ],
+  "last_passing": {
+    "bytes": 1459978240,
+    "evidence": [
+      "reports/builds/lab-cave.json",
+      "reports/builds/lab-cave-content-delta.json",
+      "reports/runs/2026-10-10T065914Z-headless-smoke",
+      "docs/adr/0019-repack-defects-and-build-provenance.md"
+    ],
+    "iso": "builds/lab-cave.iso",
+    "note": "Reuses cave slot f_03 (7 floors; haniwa + return fountain added on floor 1, makigai re-skinned with the Rubber Duck model). Verified: data lane (62 checks, 0 problems), deterministic repack with byte-exact per-file delta, headless cold boot (GPVE01 read, lit+fresh captures, clean teardown). NOT play-verified: game-level input is unattributable on this headless host (ADR-0020), so the input-only E2E lane (t5) is BLOCKED and no playability claim is made.",
+    "pinned_at": "2026-10-10T07:44:05.874291+00:00",
+    "sha256": "6a9da6425949d162c564bf816f92c8197253a8b25e04b8dfa50b8c3fc0f07174",
+    "verified_level": "boot"
+  }
+}
