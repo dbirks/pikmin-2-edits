@@ -10,6 +10,7 @@ dependencies = [
   "pillow>=12.3.0",
   "imagequant>=1.1.5",
   "pyfastyaz0yay0",
+  "evdev>=2.0.0",
 ]
 
 [project.scripts]
