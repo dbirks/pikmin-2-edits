@@ -45,8 +45,29 @@ this project's **muscle memory**. Every agent session:
 3. Never edits a superseded ADR's decision text; writes a new ADR that supersedes it.
 4. Updates the index table in the README as part of the same commit.
 
-## Git discipline — commit frequently
+## Dependency safety — security review before every add
 
+Before ANY new dependency (`uv add`, vendored library, git-pinned package,
+system package suggestion), stop and perform a security review, then record
+the outcome in the ADR that introduces it:
+
+1. **Provenance**: official PyPI/distro repo vs git URL; identify maintainer,
+   stars/adoption, last release date, license (SPDX).
+2. **Track record**: known CVEs/advisories (GitHub advisories, OSV),
+   open-issue hygiene, whether the repo is actively maintained or archived.
+3. **Attack surface**: install-time code (setup.py/build backends, native
+   extensions, network fetches at import), postinstall scripts, scope of
+   permissions the library needs (e.g. `/dev/uinput`, ptrace, sockets).
+4. **Necessity & blast radius**: could a stdlib/vendored-elsewhere solution
+   cover it? Is the pin immutable (hash/commit)? Prefer `uv`'s lockfile
+   hashes; commit the updated `uv.lock`.
+5. **Vendoring rules**: vendored code (e.g. `tools/gclib`) keeps its license
+   file + pinned provenance; local patches get documented where the copy lives.
+If review cannot clear a package (stalled maintainer, unreviewable native
+code, license mismatch), choose an alternative or implement the feature
+internally; never "just try" an unvetted package.
+
+## Git discipline — commit frequently
 - Commit as soon as a unit of work is verified: each gate, ADR, working tool, benchmark result, doc fix. Small, coherent commits beat big ones.
 - Every commit message states *why*, understandable without the diff.
 - **Never stage:** ISOs, extracted proprietary assets, saves/profiles, run evidence binaries (enforced by `.gitignore`; double-check `git status` before each commit).
