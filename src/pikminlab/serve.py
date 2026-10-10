@@ -247,10 +247,11 @@ class Session:
         except Exception: pass
         try:
             self.proc.kill(); self.proc.wait(timeout=10)
+        except Exception:
+            pass
         finally:
             if getattr(self, "_log_fh", None):
                 self._log_fh.close()
-        except Exception: pass
 
 
 SESSION: Session | None = None
