@@ -1,6 +1,6 @@
 """pikminlab CLI — machine-readable results on stdout (master spec §10)."""
 from __future__ import annotations
-import argparse, json, sys
+import argparse, json, shutil, subprocess, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -54,6 +54,20 @@ def cmd_ingest(args: argparse.Namespace) -> int:
     return _emit("PASS", path=str(p), size=p.stat().st_size,
                  sha256=h.hexdigest(), game_id=game_id,
                  note="source treated as immutable; verify with dolphin-tool")
+
+
+def cmd_extract(args: argparse.Namespace) -> int:
+    """Guarded full-tree extract (disk-headroom check lives in buildlane)."""
+    from . import buildlane
+    try:
+        root = buildlane.extract_tree(Path(args.iso).resolve(),
+                                       Path(args.dest) if args.dest else None)
+    except RuntimeError as exc:            # INSUFFICIENT_DISK
+        return _emit("BLOCKED", error=str(exc))
+    except subprocess.CalledProcessError as exc:
+        return _emit("FAIL", error=f"pyisotools exit {exc.returncode}")
+    return _emit("PASS", disc_root=str(root),
+                 free_gib_after=round(shutil.disk_usage(str(root)).free / 2**30, 2))
 
 
 def cmd_probe(args: argparse.Namespace) -> int:
@@ -131,6 +145,9 @@ def main(argv=None) -> int:
     sub.add_parser("doctor").set_defaults(fn=cmd_doctor)
     pi = sub.add_parser("ingest"); pi.add_argument("iso")
     pi.set_defaults(fn=cmd_ingest)
+    pe = sub.add_parser("extract")
+    pe.add_argument("iso"); pe.add_argument("--dest")
+    pe.set_defaults(fn=cmd_extract)
     pp = sub.add_parser("probe")
     pp.set_defaults(fn=cmd_probe)
     pp.add_argument("iso")

@@ -16,6 +16,34 @@ from gclib.yaz0_yay0 import Yaz0
 REPO = Path(__file__).resolve().parents[2]
 ORIG_TREE = REPO / "workspace" / "extracted" / "root"
 
+# The headless host's root volume was at 96% when this lane first ran; starting
+# a full extract with only ~5 GiB free took it to 100% (256 MiB left) and had to
+# be aborted and hand-cleaned. An extract is ~1.0-1.5 GiB and a repack writes
+# another 1.46 GiB while the tree is still on disk, so the lane now refuses to
+# start without headroom rather than risking the owner's OS.
+MIN_FREE_GIB = 6.0
+
+
+def require_headroom(at: Path = REPO, need_gib: float = MIN_FREE_GIB) -> float:
+    free = shutil.disk_usage(at).free / 2**30
+    if free < need_gib:
+        raise RuntimeError(
+            f"INSUFFICIENT_DISK: {free:.2f} GiB free under {at}, data lane needs "
+            f"{need_gib:.1f} GiB headroom. Clear ~/.cache or /var/cache/pacman first.")
+    return round(free, 2)
+
+
+def extract_tree(iso: Path, dest: Path | None = None) -> Path:
+    """Guarded full-tree extract via the pyisotools CLI (ADR-0008 lane). Returns
+    the disc root directory that `build_iso` consumes."""
+    free_gib = require_headroom()
+    dest = Path(dest) if dest else ORIG_TREE.parent
+    dest.mkdir(parents=True, exist_ok=True)
+    subprocess.run([sys.executable, "-m", "pyisotools", str(iso), "E",
+                    "--dest", str(dest)], check=True)
+    root = dest / "root" if (dest / "root").is_dir() else dest
+    return root if root.is_dir() else ORIG_TREE
+
 
 def apply_text_patch(tree_root: Path, arc_rel: str, entry_name: str,
                      old: bytes, new: bytes) -> tuple[str, int]:
@@ -40,6 +68,7 @@ def build_iso(extracted: Path, out_iso: Path) -> Path:
     """Repack extracted root -> ISO via pyisotools. Quirk (ADR-0008): dest is
     resolved relative to the root as <root>/<dest>, so we build there then
     relocate to the requested path."""
+    require_headroom(extracted.parent)
     out_iso.parent.mkdir(parents=True, exist_ok=True)
     tmp_name = "lab_build.iso"
     subprocess.run([sys.executable, "-m", "pyisotools", str(extracted), "B",
