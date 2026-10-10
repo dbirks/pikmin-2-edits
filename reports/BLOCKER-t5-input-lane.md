@@ -1,5 +1,9 @@
 # BLOCKER — t5 input-only cave E2E (status: BLOCKED, not FAILED-by-design)
 
+> **Filed as issue #2** for outside help: <https://github.com/dbirks/pikmin-2-edits/issues/2>
+> — it adds the experiment table, the two invalid oracles, ranked hypotheses and the specific
+> asks. Note there that `reports/runs/**` is gitignored, so the PNGs are host-local.
+
 **Build under test:** `builds/lab-cave.iso` sha256 `6a9da6425949d162c564bf816f92c8197253a8b25e04b8dfa50b8c3fc0f07174` (pinned at `verified_level: boot`)
 **Host:** `delightful-goose`, Arch, Dolphin `1:2609-1`, `-v OpenGL` under Xvfb, uinput pad
 **Attempts used:** 3 E2E cold launches + 1 attribution control run (limit: 3 + 2 restarts)
