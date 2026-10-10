@@ -1,0 +1,19 @@
+# CaveInfo
+{
+	{c000} 4 7 	# synthetic test cave
+	{_eof} 
+}
+9 # FloorInfo
+{
+	{f000} 4 0 	# synthetic floor name slot
+	{f002} 4 10 
+	{f008} -1 9_units_synthetic.txt 
+	{f009} -1 synthetic_light.ini 
+	{f015} 4 1 
+	{_eof} 
+}
+# TekiInfo
+{
+	4 	# num
+	{_eof} 
+}

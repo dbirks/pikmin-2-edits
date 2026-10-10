@@ -1,0 +1,1038 @@
+{
+ "generated_from": "workspace/extracted/root (GPVE01 sha256 5388b54a…db661a)",
+ "caveinfo_dir": "files/user/Mukki/mapunits/caveinfo",
+ "files": 85,
+ "total_floor_rows": 5456,
+ "files_missing_eof": [],
+ "caves": [
+  {
+   "file": "Dam_cave_conc.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 30,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_manh_conc.txt",
+    "1_units_otakara_tile.txt"
+   ]
+  },
+  {
+   "file": "Dam_cave_metal.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 4,
+   "floor_rows": 60,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_houdai2_metal.txt",
+    "1_units_houdai_metal.txt"
+   ]
+  },
+  {
+   "file": "Dam_cave_tsuchi.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 15,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_boss_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "E3_1.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 12,
+   "all_eof_terminated": true,
+   "units_files": [
+    "units_tekitest.txt"
+   ]
+  },
+  {
+   "file": "E3_2.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 4,
+   "floor_rows": 48,
+   "all_eof_terminated": true,
+   "units_files": [
+    "E3_units_tsuchi.txt",
+    "units_tekitest.txt"
+   ]
+  },
+  {
+   "file": "E3_3.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 60,
+   "all_eof_terminated": true,
+   "units_files": [
+    "E3_units_metal.txt",
+    "E3_units_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "King_caveinfo.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 30,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_king_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "Queen_caveinfo.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 30,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_boss_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "caveinfo.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 34,
+   "floor_rows": 646,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_unit_16x17r_conc.txt",
+    "1_units_DKumo_conc.txt",
+    "1_units_big2_kusachi.txt",
+    "1_units_boss_tsuchi.txt",
+    "1_units_dangomushi_tile.txt",
+    "1_units_opan_toy.txt",
+    "1_units_purple_snow.txt",
+    "1_units_queen_b_tsuchi.txt",
+    "1_units_queen_c_tsuchi.txt",
+    "1_units_snake_tsuchi.txt",
+    "1_units_torigoya_kusachi.txt",
+    "1_units_tower2_toy.txt",
+    "1_units_tower_toy.txt",
+    "1_units_white_metal.txt",
+    "2_ABE_norhiba_blkhiba_tsuchi.txt",
+    "2_MAT_cent_north_boss_tsuchi.txt",
+    "2_MAT_kingA_kingB_tsuchi.txt",
+    "2_units_Oashi_d_conc.txt",
+    "2_units_hit47_hit67_toy.txt",
+    "2_units_kingA_norhiba_tsuchi.txt",
+    "2_units_mid2_north_snow.txt",
+    "2_units_sara_sara2_toy.txt",
+    "2_units_small2_mid2_toy.txt",
+    "2_units_tak22_yuko_tile.txt",
+    "3_ABE_mid2_norhiba_blkhiba_tsuchi.txt",
+    "3_units_a_l_yuko_tile.txt",
+    "3_units_cent_h235_tower_metal.txt",
+    "3_units_d_f_ujikou_tile.txt",
+    "3_units_f_m_bomb_conc.txt",
+    "3_units_h335_h344_tekiF_metal.txt",
+    "3_units_h_k_pypes_conc.txt",
+    "4_units_a_d_f_l_tile.txt",
+    "all_units_renga.txt",
+    "units_test_snow.txt"
+   ]
+  },
+  {
+   "file": "caveinfo_conc.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 75,
+   "all_eof_terminated": true,
+   "units_files": [
+    "all_units_conc.txt",
+    "units_test_conc.txt"
+   ]
+  },
+  {
+   "file": "caveinfo_hiroba.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 30,
+   "all_eof_terminated": true,
+   "units_files": [
+    "all_units_kusachi.txt"
+   ]
+  },
+  {
+   "file": "caveinfo_metal.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 75,
+   "all_eof_terminated": true,
+   "units_files": [
+    "all_units_metal.txt"
+   ]
+  },
+  {
+   "file": "caveinfo_tile.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 75,
+   "all_eof_terminated": true,
+   "units_files": [
+    "all_units_tile.txt"
+   ]
+  },
+  {
+   "file": "caveinfo_toy.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 75,
+   "all_eof_terminated": true,
+   "units_files": [
+    "all_units_toy.txt"
+   ]
+  },
+  {
+   "file": "caveinfo_tsuchi.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 75,
+   "all_eof_terminated": true,
+   "units_files": [
+    "all_units_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "ch_ABEM_LeafChappy.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 38,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MAT_manp_2_conc.txt",
+    "1_MAT_vs_drypool_tile.txt"
+   ]
+  },
+  {
+   "file": "ch_ABEM_tutorial.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 38,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_cent3_tsuchi.txt",
+    "2_MAT_mid1_nor2_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "ch_MAT_conc_cave.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 3,
+   "floor_rows": 54,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_MAT_a_m_conc.txt",
+    "3_MAT_d_i_m_conc.txt",
+    "4_MAT_c_d_k_n_conc.txt"
+   ]
+  },
+  {
+   "file": "ch_MAT_crawler.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 36,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_manh_conc.txt",
+    "4_units_c_e_j_l_conc.txt"
+   ]
+  },
+  {
+   "file": "ch_MAT_flier.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 18,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_MAT_sak1_sak2_snow.txt"
+   ]
+  },
+  {
+   "file": "ch_MAT_limited_time.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 18,
+   "all_eof_terminated": true,
+   "units_files": [
+    "4_NARI_all_hitode.txt"
+   ]
+  },
+  {
+   "file": "ch_MAT_route_rover.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 18,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_bunki_2_tile.txt"
+   ]
+  },
+  {
+   "file": "ch_MAT_t_hunter_enemy.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 90,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MAT_north_boss_tsuchi.txt",
+    "1_MAT_north_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "ch_MAT_t_hunter_hana.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 18,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_manh_conc.txt"
+   ]
+  },
+  {
+   "file": "ch_MAT_t_hunter_otakara.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 18,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MAT_manp_2_conc.txt"
+   ]
+  },
+  {
+   "file": "ch_MAT_yellow_purple_white.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 18,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MAT_tower2_toy.txt"
+   ]
+  },
+  {
+   "file": "ch_MIYA_oopan.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MIYA_manh2_conc.txt"
+   ]
+  },
+  {
+   "file": "ch_MIYA_trap.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_units_tak22_yuko_tile.txt"
+   ]
+  },
+  {
+   "file": "ch_MUKI_bigfoot.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_units_Oashi_s_yuko_conc.txt"
+   ]
+  },
+  {
+   "file": "ch_MUKI_bombing.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_units_5x5a_big_tekiF_kusachi.txt"
+   ]
+  },
+  {
+   "file": "ch_MUKI_damagumo.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_5x5a_kusachi.txt"
+   ]
+  },
+  {
+   "file": "ch_MUKI_enemyzero.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_unit_16x17r_conc.txt"
+   ]
+  },
+  {
+   "file": "ch_MUKI_houdai.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 38,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_houdai2_metal.txt",
+    "1_units_houdai_metal.txt"
+   ]
+  },
+  {
+   "file": "ch_MUKI_king.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 95,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_king_tsuchi.txt",
+    "1_units_queen_c_tsuchi.txt",
+    "2_units_blk1_nor4_tsuchi.txt",
+    "2_units_ike2_hit1_tsuchi.txt",
+    "2_units_kingA_norhiba_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "ch_MUKI_metal.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 38,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_units_mid1_nor22_metal.txt",
+    "2_units_nor_tekiF_metal.txt"
+   ]
+  },
+  {
+   "file": "ch_MUKI_oootakara.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 30,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_boss_tsuchi.txt",
+    "1_units_otakara_tile.txt"
+   ]
+  },
+  {
+   "file": "ch_MUKI_queen.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 15,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_boss_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "ch_MUKI_redblue.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 38,
+   "all_eof_terminated": true,
+   "units_files": [
+    "3_units_f_l_o_conc.txt",
+    "3_units_pool_nor_ujikou_tile.txt"
+   ]
+  },
+  {
+   "file": "ch_NARI_01kusachi.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 18,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MAT_ike_kusachi.txt"
+   ]
+  },
+  {
+   "file": "ch_NARI_02tile.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 38,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MIYA_bunki_tile.txt",
+    "2_units_northF_pool_tile.txt"
+   ]
+  },
+  {
+   "file": "ch_NARI_03toy.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 38,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_NARI_hit6x6_toy.txt",
+    "1_units_large_toy.txt"
+   ]
+  },
+  {
+   "file": "ch_NARI_04series.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 7,
+   "floor_rows": 126,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MAT_mid2_tsuchi.txt",
+    "1_MIYA_manh2_conc.txt",
+    "1_NARI_4x4b_conc.txt",
+    "1_NARI_north4_tsuchi.txt",
+    "1_units_north_metal.txt",
+    "2_units_tako_north_tile.txt"
+   ]
+  },
+  {
+   "file": "ch_NARI_05start3easy.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 36,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_MAT_cent_north_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "ch_NARI_06start3hard.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 3,
+   "floor_rows": 54,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_NARI_4x4b_conc.txt",
+    "1_units_big2_kusachi.txt",
+    "3_units_d_f_ujikou_tile.txt"
+   ]
+  },
+  {
+   "file": "ch_NARI_07whitepurple.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 38,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_units_cent_north_tsuchi.txt",
+    "2_units_mid2_north_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "ch_NARI_08tobasare.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 38,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_units_ari1_nor2_metal.txt",
+    "2_units_ike2_ike3_snow.txt"
+   ]
+  },
+  {
+   "file": "ch_NARI_09suikomi.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 18,
+   "all_eof_terminated": true,
+   "units_files": [
+    "3_MAT_hit34_sak2_uzu1_snow.txt"
+   ]
+  },
+  {
+   "file": "challenge_1.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 15,
+   "floor_rows": 180,
+   "all_eof_terminated": true,
+   "units_files": [
+    "E3_units_metal.txt",
+    "E3_units_tsuchi.txt",
+    "units_tekitest.txt"
+   ]
+  },
+  {
+   "file": "challenge_2.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 60,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_boss_tsuchi.txt",
+    "E3_units_metal.txt",
+    "E3_units_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "eq_tutorial_1.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 12,
+   "all_eof_terminated": true,
+   "units_files": [
+    "units_tekitest.txt"
+   ]
+  },
+  {
+   "file": "forest_1.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 95,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_boss_tsuchi.txt",
+    "1_units_cent2_tsuchi.txt",
+    "1_units_cent3_tsuchi.txt",
+    "2_ABE_mid1_nor3_tsuchi.txt",
+    "2_ABE_norhiba_blkhiba_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "forest_2.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 90,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_ABE_ari_metal.txt",
+    "1_units_snake_tsuchi.txt",
+    "1_units_white_metal.txt",
+    "2_ABE_nor1_cen2_metal.txt",
+    "3_ABE_sak1_sak2_hit1_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "forest_3.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 7,
+   "floor_rows": 126,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_MAT_cent_mid2_tsuchi.txt",
+    "2_MAT_hit4_nor2_tsuchi.txt",
+    "2_MAT_kingA_kingB_tsuchi.txt",
+    "2_MAT_mid1_nor2_tsuchi.txt",
+    "2_MAT_sak2_nor1_tsuchi.txt",
+    "3_MAT_cnt2_nor3_uzu1_tsuchi.txt",
+    "3_MAT_hit2_blk1_nor3_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "forest_4.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 7,
+   "floor_rows": 133,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_ABE_manp_boss_conc.txt",
+    "1_ABE_mid1_boss_tsuchi.txt",
+    "1_units_torigoya_kusachi.txt",
+    "3_ABE_5X5a_ike_big_kusachi.txt",
+    "3_ABE_b_f_g_conc.txt",
+    "3_ABE_cent_4x4_mid1_metal.txt",
+    "3_ABE_mid2_hit446_hit344.txt"
+   ]
+  },
+  {
+   "file": "kfes_ABEM_tutorial.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 24,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_cent2_tsuchi.txt",
+    "2_units_cent_mid2_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "kfes_MUKI_damagumo.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 15,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_5x5a_kusachi.txt"
+   ]
+  },
+  {
+   "file": "kfes_MUKI_redblue.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 30,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_units_north_pool_tile.txt",
+    "4_units_c_l_n_o_conc.txt"
+   ]
+  },
+  {
+   "file": "kfes_NARI_03toy.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 30,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MIYA_mid_toy.txt",
+    "1_NARI_hit6x6_toy.txt"
+   ]
+  },
+  {
+   "file": "kfes_NARI_07whitepurple.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 30,
+   "all_eof_terminated": true,
+   "units_files": [
+    "2_units_cent_mid2_tsuchi.txt",
+    "3_units_cent_mid2_north_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "last_1.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 10,
+   "floor_rows": 180,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_ABE_king_tsuchi.txt",
+    "1_units_dangomushi_tile.txt",
+    "1_units_hit224_metal.txt",
+    "1_units_houdai_metal.txt",
+    "2_ABE_a_dry_tile.txt",
+    "2_ABE_blk_hit3_tsuchi.txt",
+    "2_units_north_pool_tile.txt",
+    "3_MAT_d_i_m_conc.txt",
+    "3_MAT_f_k_o_conc.txt",
+    "3_units_cent_cent2_north_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "last_2.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 15,
+   "floor_rows": 270,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MAT_manq_conc.txt",
+    "1_MIYA_bunki_tile.txt",
+    "1_units_big2_kusachi.txt",
+    "1_units_houdai2_metal.txt",
+    "1_units_ike4_tsuchi.txt",
+    "1_units_king_tsuchi.txt",
+    "1_units_queen_c_tsuchi.txt",
+    "2_ABE_blk_cent2_tsuchi.txt",
+    "2_ABE_nor1_cen2_metal.txt",
+    "2_units_Oashi_d_conc.txt",
+    "2_units_ud_dry_tile.txt",
+    "4_ABE_a_b_e_m_conc.txt",
+    "4_units_a_d_e_h_conc.txt"
+   ]
+  },
+  {
+   "file": "last_3.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 14,
+   "floor_rows": 266,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_ABE_vshit67_toy.txt",
+    "1_MAT_danh_conc.txt",
+    "1_MAT_manq_2_conc.txt",
+    "1_units_cent3_tsuchi.txt",
+    "1_units_ike4_tsuchi.txt",
+    "1_units_otakara_tile.txt",
+    "1_units_spiral_conc.txt",
+    "1_units_tower_toy.txt",
+    "2_ABE_d_dry_tile.txt",
+    "2_ABE_nobo2_nor22_metal.txt",
+    "2_MAT_tak22_nor22_tile.txt",
+    "3_ABE_mid2_hit3_hit5_metal.txt",
+    "3_units_mid2_hit6_hit7_metal.txt",
+    "E3_units_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "last_4.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 32,
+   "floor_rows": 384,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MAT_manp_conc.txt",
+    "1_units_boss_tsuchi.txt",
+    "1_units_houdai_metal.txt",
+    "1_units_ike4_tsuchi.txt",
+    "1_units_king_tsuchi.txt",
+    "1_units_manh_conc.txt",
+    "1_units_north_metal.txt",
+    "2_NARI_nor3_mid2_tsuchi.txt",
+    "2_units_ari_nobo_metal.txt",
+    "2_units_cent_mid2_tsuchi.txt",
+    "2_units_cent_nor1_metal.txt",
+    "3_units_f_g_m_conc.txt",
+    "4_NARI_all_hitode.txt",
+    "4_units_a_b_c_d_conc.txt",
+    "4_units_f_g_i_spiral_conc.txt",
+    "5_NARI_nor1_nor2_nor3_hit1_hit2_tsuchi.txt",
+    "5_units_pype_conc.txt",
+    "all_units_water-ike4.txt",
+    "all_units_water_tsuchi.txt",
+    "units.txt"
+   ]
+  },
+  {
+   "file": "pom_floor.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 12,
+   "all_eof_terminated": true,
+   "units_files": [
+    "units_tekitest.txt"
+   ]
+  },
+  {
+   "file": "tutorial_1.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 36,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_north_tutorial_snow.txt",
+    "1_units_purple_snow.txt"
+   ]
+  },
+  {
+   "file": "tutorial_2.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 9,
+   "floor_rows": 162,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_hit224_metal.txt",
+    "1_units_houdai_metal.txt",
+    "1_units_nobo2_metal.txt",
+    "2_MAT_h224_h443_tekiF_metal.txt",
+    "2_MAT_h335_h447_metal.txt",
+    "3_MAT_ari_h446_h443_tower_metal.txt",
+    "3_MAT_mid1_mid2_uzu1_snow.txt",
+    "5_units_mid2_cent_hit4_hit5_nor2_metal.txt"
+   ]
+  },
+  {
+   "file": "tutorial_3.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 8,
+   "floor_rows": 144,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_MAT_cent2_tsuchi.txt",
+    "1_units_queen_b_tsuchi.txt",
+    "3_MAT_a_h_m_renga.txt",
+    "3_MAT_cent_mid1_mid2_tsuchi.txt",
+    "3_MAT_d_g_m_renga.txt",
+    "3_MAT_ike3_mid2_sak1_snow.txt",
+    "3_MAT_nor4_hit2_blk1_snow.txt",
+    "3_MAT_nor4_ike1_ike2_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "video_caveinfo_metal.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 12,
+   "all_eof_terminated": true,
+   "units_files": [
+    "E3_units_metal.txt"
+   ]
+  },
+  {
+   "file": "video_caveinfo_tsuchi.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 24,
+   "all_eof_terminated": true,
+   "units_files": [
+    "E3_units_tsuchi.txt",
+    "units_tekitest.txt"
+   ]
+  },
+  {
+   "file": "vs_10_tile.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "vs_10_test_tile.txt"
+   ]
+  },
+  {
+   "file": "vs_1_otegaru.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "vs_1_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "vs_2_ujyaujya.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "vs_2_snow.txt"
+   ]
+  },
+  {
+   "file": "vs_3_hirobiro.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "vs_3_toy.txt"
+   ]
+  },
+  {
+   "file": "vs_4_karakuchi.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "vs_4_metal.txt"
+   ]
+  },
+  {
+   "file": "vs_5_semai.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "vs_5_conc.txt"
+   ]
+  },
+  {
+   "file": "vs_6_hiyahiya.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "vs_6_nobo_metal.txt"
+   ]
+  },
+  {
+   "file": "vs_7_nobinobi.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "vs_7_kusachi.txt"
+   ]
+  },
+  {
+   "file": "vs_8_kakukaku.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "vs_8_spiral_conc.txt"
+   ]
+  },
+  {
+   "file": "vs_9_meiro.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 19,
+   "all_eof_terminated": true,
+   "units_files": [
+    "vs_9_tsuchi.txt"
+   ]
+  },
+  {
+   "file": "yakushima_1.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 95,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_NARI_4x4b_conc.txt",
+    "1_NARI_4x4c_conc.txt",
+    "1_units_DKumo_conc.txt",
+    "1_units_a_conc.txt",
+    "3_ABE_d_pypen_dani_conc.txt"
+   ]
+  },
+  {
+   "file": "yakushima_2.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 6,
+   "floor_rows": 114,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_hit6x6_yakushima_toy.txt",
+    "1_units_large_toy.txt",
+    "1_units_opan_toy.txt",
+    "2_units_hit47_hit67_toy.txt",
+    "2_units_sara_sara2_toy.txt",
+    "3_units_small2_small_mid_toy.txt"
+   ]
+  },
+  {
+   "file": "yakushima_3.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 7,
+   "floor_rows": 133,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_unit_16x17r_conc.txt",
+    "1_units_a_tile.txt",
+    "2_units_ud_dry_tile.txt",
+    "3_units_a_d_north_tile.txt",
+    "3_units_a_l_yuko_tile.txt",
+    "3_units_d_f_ujikou_tile.txt",
+    "4_units_a_d_f_l_tile.txt"
+   ]
+  },
+  {
+   "file": "yakushima_4.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 5,
+   "floor_rows": 95,
+   "all_eof_terminated": true,
+   "units_files": [
+    "1_units_manh_boss_conc.txt",
+    "2_units_gw_l_conc.txt",
+    "3_units_f_g_m_conc.txt",
+    "3_units_h_k_pypes_conc.txt",
+    "4_units_d_j_n_o_conc.txt"
+   ]
+  },
+  {
+   "file": "パンモドキテストcaveinfo.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 2,
+   "floor_rows": 30,
+   "all_eof_terminated": true,
+   "units_files": [
+    "units_tekitest.txt"
+   ]
+  },
+  {
+   "file": "敵チェックcaveinfo.txt",
+   "cave_info_entries": 1,
+   "floor_blocks": 1,
+   "floor_rows": 12,
+   "all_eof_terminated": true,
+   "units_files": [
+    "units_tekitest.txt"
+   ]
+  }
+ ]
+}

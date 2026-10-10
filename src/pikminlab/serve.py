@@ -17,7 +17,7 @@ API (JSON over http://127.0.0.1:<port>):
 The daemon also auto-exits after `idle_timeout_s` of inactivity (safety).
 """
 from __future__ import annotations
-import hashlib, json, os, socketserver, subprocess, threading, time, urllib.parse
+import hashlib, json, os, signal, socketserver, subprocess, threading, time, urllib.parse
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 
@@ -210,6 +210,17 @@ def run(iso: Path, port: int, idle_timeout_s: float = 300) -> int:
     except Exception:
         httpd.server_close()
         raise
+
+    def _term(signum, frame):
+        # A killed daemon must not orphan the emulator: the child would keep the
+        # one-and-only uinput pad and the profile. stop() SIGKILLs+reaps it.
+        try:
+            SESSION.stop()
+        finally:
+            os._exit(128 + signum)
+
+    for sig in (signal.SIGTERM, signal.SIGINT):
+        signal.signal(sig, _term)
     threading.Thread(target=idle_watchdog, daemon=True).start()
     with httpd:
         print(json.dumps({"serving": port, "window": SESSION.window,

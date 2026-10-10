@@ -28,3 +28,6 @@ node_modules/
 
 # Archives stay out of the repo (source pack lives unpacked in docs/)
 *.zip
+
+# pi harness state (goal files, settings)
+.pi/
