@@ -642,6 +642,7 @@ dependencies = [
     { name = "dolphin-memory-engine" },
     { name = "imagequant" },
     { name = "pillow" },
+    { name = "pyfastyaz0yay0" },
     { name = "pyisotools" },
     { name = "pyyaml" },
 ]
@@ -656,6 +657,7 @@ requires-dist = [
     { name = "dolphin-memory-engine" },
     { name = "imagequant", specifier = ">=1.1.5" },
     { name = "pillow", specifier = ">=12.3.0" },
+    { name = "pyfastyaz0yay0", git = "https://github.com/LagoLunatic/PyFastYaz0Yay0.git?rev=2adb8a8c00d98f98f245e0304094a0610203a82e" },
     { name = "pyisotools" },
     { name = "pyyaml" },
 ]
@@ -774,6 +776,11 @@ sdist = { url = "https://files.pythonhosted.org/packages/da/a8/c5fdbeee588bb8ada
 wheels = [
     { url = "https://files.pythonhosted.org/packages/90/11/0e6f11117525ff0eec40ebac3d313376f102df93ca44ad9e893ee85e4f89/pycparser-3.11-py3-none-any.whl", hash = "sha256:51d5a8ba2be0bbe440b99d2112604c95bbbc3c2748a64260186c541e1729cd80", size = 51178, upload-time = "2026-10-09T12:56:58.131Z" },
 ]
+
+[[package]]
+name = "pyfastyaz0yay0"
+version = "2.0"
+source = { git = "https://github.com/LagoLunatic/PyFastYaz0Yay0.git?rev=2adb8a8c00d98f98f245e0304094a0610203a82e#2adb8a8c00d98f98f245e0304094a0610203a82e" }
 
 [[package]]
 name = "pygithub"

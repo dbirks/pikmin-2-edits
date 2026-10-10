@@ -13,6 +13,10 @@ mostly Windows-only; gclib is pure Python and cross-platform).
   failure `imagequant` resolved by `uv add Pillow imagequant`).
 - Project Python pinned to 3.12 (`.python-version`): gclib's `bunfoe` uses
   `dataclasses._recursive_repr`, which is gone in 3.14.
+- Speedup extension `pyfastyaz0yay0` (git-pinned 2adb8a8) fails with Arch's
+  modern GCC defaults (C23 `bool` keyword; C99 `inline` emits no symbol).
+  Reproducible build:
+  `CFLAGS="-std=gnu11 -fgnu89-inline" uv add "pyfastyaz0yay0 @ git+https://github.com/LagoLunatic/PyFastYaz0Yay0.git@2adb8a8c00d98f98f245e0304094a0610203a82e"`
 
 ## Notes
 - `bmg.BMG` parser is Wind Waker-specific; raises on Pikmin 2

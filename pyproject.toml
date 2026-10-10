@@ -9,6 +9,7 @@ dependencies = [
   "dolphin-memory-engine",
   "pillow>=12.3.0",
   "imagequant>=1.1.5",
+  "pyfastyaz0yay0",
 ]
 
 [project.scripts]
@@ -20,6 +21,9 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pikminlab"]
+
+[tool.uv.sources]
+pyfastyaz0yay0 = { git = "https://github.com/LagoLunatic/PyFastYaz0Yay0.git", rev = "2adb8a8c00d98f98f245e0304094a0610203a82e" }
 
 [dependency-groups]
 dev = ["pytest"]
