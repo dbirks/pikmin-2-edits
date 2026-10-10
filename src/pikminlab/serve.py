@@ -45,6 +45,8 @@ class Session:
         self.iso, self.run_dir = iso, run_dir
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.pad = VirtualPad()
+        self.snaps: dict[str, tuple] = {}
+        self.snap_base = 0x80000000
         (PROFILE / "Config" / "GCPadNew.ini").write_text(GC_PAD_INI)
         env = {**display_env(), "SDL_GAMECONTROLLERCONFIG": GC_MAPPING + "\n"}
         # Headless: wrap the DAEMON (`xvfb-run -a uv run pikminlab serve ...`) or
@@ -91,6 +93,134 @@ class Session:
         if not dme.is_hooked():
             dme.hook()
         return dme.read_bytes(addr, size).hex()
+
+    def snap(self, tag: str, start: int = 0x80000000, size: int = 0x2000000) -> dict:
+        """Hash guest RAM into a float32 array kept server-side, for diffing.
+
+        Used to DISCOVER the player-position struct empirically (read-only): walk
+        once, diff, keep the floats that moved coherently. Traffic stays small
+        because only candidates are returned, never the RAM itself.
+        """
+        import struct
+        arr = bytearray()
+        CH = 1 << 20
+        for off in range(0, size, CH):
+            n = min(CH, size - off)
+            try:
+                arr += bytes.fromhex(self.read(start + off, n))
+            except Exception:                     # noqa: BLE001
+                arr += b"\x00" * n
+        self.snaps[tag] = struct.unpack(f">{len(arr) // 4}f", bytes(arr))
+        while len(self.snaps) > 3:                 # ~64 MB per snapshot; keep the last few
+            self.snaps.pop(next(iter(self.snaps)))
+        self.snap_base = start
+        return {"tag": tag, "floats": len(self.snaps[tag])}
+
+    def snap_triples(self, a: str, b: str, mag_max: float = 6000.0,
+                     delta_min: float = 0.5, limit: int = 30,
+                     mag_min: float = 0.0) -> dict:
+        """Consecutive float32 triples where >=2 components moved coherently.
+
+        A position struct is (x,y,z): walking changes x and z a lot and y little,
+        so 2-of-3 movement at world-ish magnitudes is a much sharper net than
+        "any float that changed" (water, timers and animation curves also move)."""
+        import math
+        pa, pb = self.snaps.get(a), self.snaps.get(b)
+        if not pa or not pb:
+            return {"error": "missing snapshot"}
+        out = []
+        for i in range(0, len(pa) - 3):
+            t = pa[i:i + 3]
+            if not all(math.isfinite(v) and abs(v) < mag_max for v in t):
+                continue
+            # A world coordinate lives in the hundreds-to-thousands (forest spans
+            # ~±4000); animation/blend structs sit near 0-3 and moved under stick
+            # input in the FIRST attempt, masquerading as a position. Without a
+            # floor, "some triple changed and came back" is not a position oracle.
+            if max(abs(t[0]), abs(t[2])) < mag_min:
+                continue
+            moved = sum(1 for k in range(3) if abs(pb[i + k] - t[k]) >= delta_min)
+            if moved >= 2:
+                out.append({"addr": hex(self.snap_base + i * 4),
+                            "a": [round(v, 3) for v in t],
+                            "b": [round(pb[i + k], 3) for k in range(3)]})
+                if len(out) >= limit:
+                    break
+        return {"triples": out, "count": len(out)}
+
+    def snap_diff(self, a: str, b: str, mag_max: float = 6000.0,
+                  delta_min: float = 0.3, delta_max: float = 400.0, limit: int = 40) -> dict:
+        import math
+        pa, pb = self.snaps.get(a), self.snaps.get(b)
+        if not pa or not pb:
+            return {"error": "missing snapshot"}
+        out = []
+        for i in range(0, len(pa) - 1):
+            x, y = pa[i], pb[i]
+            if not (math.isfinite(x) and math.isfinite(y)):
+                continue
+            if abs(x) > mag_max or abs(y) > mag_max:
+                continue
+            d = abs(y - x)
+            if delta_min <= d <= delta_max:
+                out.append({"addr": hex(self.snap_base + i * 4), "a": round(x, 4), "b": round(y, 4)})
+                if len(out) >= limit:
+                    break
+        return {"candidates": out, "count": len(out)}
+
+    def scan(self, values: list[float], tol: float = 1.0, start: int = 0x80000000,
+             size: int = 0x2000000, limit: int = 32) -> dict:
+        """Search guest RAM for consecutive float32s matching `values`. READ ONLY.
+
+        Why this exists: "did Olimar actually walk from the Day-1 spawn to the
+        cave entrance?" is otherwise unobservable from pixels (ADR-0015/0017 — no
+        vision model, and animated scenes defeat frame differencing). The goal's
+        boundaries allow telemetry for an otherwise-unobservable assertion. This
+        never writes memory and never warps the player, so the input-only lane
+        stays intact: input still has to do all the moving; the read only *measures*.
+
+        GameCube is big-endian, so `>f` is the expected layout; `struct.pack('>f', v)`
+        is also a substring search on the hex string, which avoids decoding 32 MiB
+        of RAM per probe.
+        """
+        import struct
+        out = {"big_endian": [], "little_endian": []}
+        CH = 1 << 20
+        needles = {}
+        for label, endian in (("big_endian", ">"), ("little_endian", "<")):
+            pats = [struct.pack(f"{endian}f", v).hex() for v in values]
+            needles[label] = pats
+        step = 4                                  # float32 alignment
+        for off in range(0, size, CH):
+            n = min(CH, size - off)
+            try:
+                chunk = bytes.fromhex(self.read(start + off, n)).hex()
+            except Exception:                     # noqa: BLE001 - unmapped page
+                continue
+            for label, pats in needles.items():
+                i = chunk.find(pats[0])
+                while i >= 0 and len(out[label]) < limit:
+                    ok = True
+                    if len(pats) > 1:             # consecutive floats within tol
+                        for k, pat in enumerate(pats[1:], 1):
+                            if chunk[i + k * 8:i + k * 8 + len(pat)] != pat:
+                                ok = False
+                                break
+                    if ok:
+                        out[label].append(hex(start + off + i // 2))
+                    i = chunk.find(pats[0], i + step * 2)
+                if len(out[label]) >= limit:
+                    break
+            if any(len(v) for v in out.values()):
+                break
+        return out
+
+    def read_floats(self, addr: int, count: int = 3, endian: str = "big") -> list[float]:
+        """Read `count` float32s at addr (for position tracking during a walk)."""
+        import struct
+        raw = bytes.fromhex(self.read(addr, 4 * count))
+        fmt = (">" if endian == "big" else "<") + f"{count}f"
+        return [round(v, 4) for v in struct.unpack(fmt, raw)]
 
     def scene_sha(self) -> str:
         try:
@@ -169,6 +299,28 @@ class Handler(BaseHTTPRequestHandler):
             if u.path == "/stick":
                 SESSION.stick(int(body["x"]), int(body["y"]))
                 return self._send(200, {"ok": True})
+            if u.path == "/snap":
+                return self._send(200, SESSION.snap(body["tag"],
+                                                    int(body.get("start", "0x80000000"), 16),
+                                                    int(body.get("size", 0x2000000))))
+            if u.path == "/snap_triples":
+                return self._send(200, SESSION.snap_triples(body["a"], body["b"],
+                                                            float(body.get("mag_max", 6000.0)),
+                                                            float(body.get("delta_min", 0.5)),
+                                                            30, float(body.get("mag_min", 0.0))))
+            if u.path == "/snap_diff":
+                return self._send(200, SESSION.snap_diff(body["a"], body["b"],
+                                                         float(body.get("mag_max", 6000.0)),
+                                                         float(body.get("delta_min", 0.3)),
+                                                         float(body.get("delta_max", 400.0))))
+            if u.path == "/scan":
+                vals = [float(v) for v in body["values"]]
+                return self._send(200, SESSION.scan(vals, float(body.get("tol", 1.0)),
+                                                    int(body.get("start", "0x80000000"), 16),
+                                                    int(body.get("size", 0x2000000))))
+            if u.path == "/read_floats":
+                return self._send(200, {"values": SESSION.read_floats(
+                    int(body["addr"], 16), int(body.get("count", 3)), body.get("endian", "big"))})
             if u.path == "/read":
                 return self._send(200, {"hex": SESSION.read(int(body["addr"], 16),
                                                             int(body["size"]))})
