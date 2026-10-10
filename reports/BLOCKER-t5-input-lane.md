@@ -47,6 +47,25 @@ teardown, zero strays), anomaly audit over 249 frames done, build pinned with ho
    and drive it with `xdotool key --window <id>`, which removes SDL enumeration *and*
    window-focus as explanations in one test.
 
+## Added this turn (ADR-0024) — the picture sharpened; no new capability
+- Dolphin's SDL **element names in our template are correct** (checked against
+  `SDLGamepad.h`), and `SDL/0/pikminlab-virtual-pad` matches SDL3's own report exactly
+  (name `pikminlab-virtual-pad`, path `/dev/input/event12`, `is_gamepad=True`); Dolphin
+  holds two fds on that node.
+- **One genuine bug found: main-stick and C-stick up/down were inverted** (`Left Y-` is
+  down, because Dolphin inverts vertical axes to respect XInput). Fixed in `GC_PAD_INI`.
+  Every earlier cursor nudge meant the opposite direction — a plausible cause of the failed
+  blind file-create navigation, though not of "no card write at all", since all four
+  directions were tried.
+- Two probes were **invalid oracles** and now self-report that instead of a verdict: F1 →
+  savestate (no `State/` dir existed, no hotkey bound) and the SIGTERM config flush
+  (Dolphin ignores SIGTERM, so nothing was rewritten). Batch mode is only *weakly*
+  exonerated, because that A/B used an RMSE oracle that cannot confirm input on a
+  live-animated title screen.
+- Consequence: the next input test must use the **card-write oracle with corrected stick
+  signs**, and a human glance (or OCR) is still the cheapest way to learn which screen we
+  are actually on.
+
 ## Next 3 agent actions once any answer arrives
 1. Re-run `scripts/input_attribution.py` with the chosen channel; require the no-input
    control pair to stay static while the press pair changes (ADR-0020's rule).

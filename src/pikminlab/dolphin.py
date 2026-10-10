@@ -1,7 +1,7 @@
 """Launch/capture/stop recipe for agent-owned Dolphin instances (ADR-0006,
 input stack per ADR-0011: uinput gamepad -> SDL3 gamepad mapping -> GC port A)."""
 from __future__ import annotations
-import subprocess, time, shutil, os
+import os, shutil, subprocess, time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -14,6 +14,11 @@ GC_MAPPING = ("pikminlab-virtual-pad,platform:Linux,xinput,"
               "leftx:a0,lefty:a1,rightx:a2,righty:a3,"
               "lefttrigger:a4,righttrigger:a5")
 
+# Element names verified against Dolphin's own SDLGamepad.h (s_sdl_button_names /
+# s_sdl_axis_names), not by guesswork: Button S/E/W/N, Back, Start, Shoulder L/R,
+# Pad N/S/W/E, and axes "Left X+"/"Left Y+" etc. Axis::GetName() inverts the odd
+# (vertical) axes "to respect XInput", so `Left Y+` is UP — the original template had
+# up/down swapped, which is why a cursor nudge meant "up" moved it down.
 GC_PAD_INI = """[GCPad1]
 Device = SDL/0/pikminlab-virtual-pad
 Buttons/A = `Button S`
@@ -24,12 +29,12 @@ Buttons/Start = `Start`
 Buttons/Select = `Back`
 Buttons/L = `Shoulder L`
 Buttons/R = `Shoulder R`
-Main Stick/Up = `Left Y-`
-Main Stick/Down = `Left Y+`
+Main Stick/Up = `Left Y+`
+Main Stick/Down = `Left Y-`
 Main Stick/Left = `Left X-`
 Main Stick/Right = `Left X+`
-C-Stick/Up = `Right Y-`
-C-Stick/Down = `Right Y+`
+C-Stick/Up = `Right Y+`
+C-Stick/Down = `Right Y-`
 C-Stick/Left = `Right X-`
 C-Stick/Right = `Right X+`
 Triggers/L-Analog = `Trigger L`
@@ -77,7 +82,7 @@ class DolphinSession:
     manager: the owner never sees a stranded window."""
 
     def __init__(self, iso: Path, video_backend: str | None = None, pad: bool = True,
-                 log_path: Path | None = None):
+                 log_path: Path | None = None, batch: bool | None = None):
         self.iso = iso
         self.video_backend = video_backend or default_video_backend()
         self.use_pad = pad
@@ -88,6 +93,11 @@ class DolphinSession:
         # uinput pad ever became Port 1, which is why the t5 blocker took a
         # control-run experiment to characterise (ADR-0020). Keep it per session.
         self.log_path = log_path
+        # -b runs the core without the GUI's normal input/idle loop. Every input
+        # claim so far was made under -b, so whether batch mode polls host devices
+        # at all was never tested (ADR-0020 left it open). PIKMINLAB_BATCH=0 turns
+        # it off to separate "device not bound to Port 1" from "nothing is polled".
+        self.batch = (os.environ.get("PIKMINLAB_BATCH", "1") != "0") if batch is None else batch
         self._log_fh = None
 
     def start(self) -> "DolphinSession":
@@ -107,8 +117,9 @@ class DolphinSession:
         else:
             out = err = subprocess.DEVNULL
         self.proc = subprocess.Popen(
-            ["dolphin-emu", "-u", str(PROFILE), "-e", str(self.iso), "-b",
-             "-v", self.video_backend],
+            ["dolphin-emu", "-u", str(PROFILE), "-e", str(self.iso)] +
+            (["-b"] if self.batch else []) +
+            ["-v", self.video_backend],
             env=env, stdout=out, stderr=err)
         return self
 

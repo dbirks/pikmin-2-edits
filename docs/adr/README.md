@@ -48,6 +48,7 @@ Rules for every agent session:
 | 0016 | Cave data survey: real paths under `files/`, header prefix is not a row count, edits are in-place patches | accepted |
 | 0017 | ~~Game-level input proven by a categorical scene change~~ — conclusion withdrawn by ADR-0020 (tooling findings stand) | superseded (conclusion) |
 | 0020 | Game-level input is UNATTRIBUTABLE: the game self-progresses (no-input control run), card-write oracle never fired; supersedes 0017 | accepted |
+| 0024 | Input element names + device string verified against Dolphin's own SDLGamepad.h (our stick up/down were inverted); F1-savestate and SIGTERM-flush oracles reported INVALID | accepted |
 | 0021 | Frame audit over 249 captures; colour-count rules triage only, and my 1-2% UI-pulse band was miscalibrated (real medians 5-25%) | accepted |
 | 0022 | 19 fully black captures: 'fresh screenshot' was satisfiable with no rendered frame; freshness now requires lit() on both | accepted |
 | 0023 | G0 evidence defect: two independent 'fresh starts' produced byte-identical captures; duplicates can no longer count as samples | accepted |

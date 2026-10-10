@@ -196,6 +196,24 @@ PIKMINLAB_VIDEO_BACKEND=OpenGL xvfb-run -a -s "-screen 0 1280x960x24" \
 - Report frame deltas only through `pikminlab.frames.rmse` (0..1 scale). A local
   helper that skipped the /65535 division printed `1005.92` on a passing run.
 
+## Pad config facts verified against Dolphin's source (ADR-0024)
+- Port 1 string is `SDL/<instance>/<SDL gamepad name>`; confirm the name with SDL3 itself
+  (`SDL_GetJoysticks(&count)` then `SDL_GetGamepadNameForID(id)`), not from memory.
+- Element names come from `SDLGamepad.h`: `Button S/E/W/N`, `Back`, `Start`,
+  `Shoulder L/R`, `Pad N/S/W/E`; axes `Left X`, `Left Y`, `Right X`, `Right Y`,
+  `Trigger L/R` with `+`/`-` suffixes.
+- **Vertical axes are inverted in Dolphin's naming** (`// Respect XInput`), so
+  ``Main Stick/Up = `Left Y+` ``. Our template said `Left Y-` (down) — every historical
+  "up" nudge moved the cursor the other way. Check signs before blaming the emulator.
+- SDL3 traps that cost three failed probes: gamepad init is `0x2000` (SDL2's `0x200`
+  fails), **`SDL_Init` returns true on SUCCESS**, `SDL_GetError` needs
+  `restype=c_char_p`, and the API is `SDL_Get*ForID`.
+- **Invalid oracles — do not reuse:** (a) F1 → savestate file when no `State/` dir exists
+  and no hotkey is bound; (b) "Dolphin rewrote GCPadNew.ini" after SIGTERM — it ignores
+  SIGTERM while emulating, so nothing flushes; (c) "RMSE collapsed ⇒ input worked" on
+  Pikmin 2's title screen, which animates live. For "input reached this game" trust only
+  a memory-card write, or a human glance.
+
 ## Pinning a build and handing it to a human (t7)
 ```bash
 uv run pikminlab pin --build builds/lab-cave.iso --level boot \
