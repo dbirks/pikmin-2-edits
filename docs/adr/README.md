@@ -40,3 +40,4 @@ Rules for every agent session:
 | 0008 | pyisotools round-trip proven; dest-relative quirk + padding notes | accepted |
 | 0009 | Vendored gclib codec stack; Pikmin text via same-length byte patch | accepted |
 | 0010 | Data build lane proven: patch -> repack -> boot | accepted |
+| 0011 | Candidate B input fully proven (uinput + SDL3 gamepad recipe) | accepted |
