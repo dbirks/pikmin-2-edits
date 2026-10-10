@@ -28,3 +28,6 @@ pyfastyaz0yay0 = { git = "https://github.com/LagoLunatic/PyFastYaz0Yay0.git", re
 
 [dependency-groups]
 dev = ["pytest"]
+
+[tool.pytest.ini_options]
+markers = ["integration: needs the local (gitignored) disc extract"]
