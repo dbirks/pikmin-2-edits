@@ -45,6 +45,39 @@ saving?" -> Yes -> Day 1. Expect intermediate MC-check banner screens
 between transitions; they are transitions, not stuck states — recapture
 after ~5 s before reacting.
 
+## RESOLVED 2026-10-09: memory card + Day-1 route (verified end-to-end)
+1. Modern Dolphin auto-cards are DIRECTORIES (`GC/USA/Card A/`) that need an
+   `MC_SYSTEM_AREA` header block — an empty dir reads as 0 blocks and all
+   game writes silently fail. Generate: `uv run python
+   scripts/make_gc_card.py runtime/dolphin-agent/GC/USA/Card A`
+   (restart the daemon afterwards; card state is loaded at boot).
+2. Proven new-game path: warning -> START -> title -> START -> main menu ->
+   A (BEGIN) -> "Create game file?" -> verify cursor is on **Yes** (yellow;
+   it does NOT default where you expect — capture first!) -> A ->
+   "A file has been created." -> "Choose a Ship's Log" (NEW orbs,
+   "This is a new Ship's Log.") -> A -> story cutscenes (~2-3 min; tap A
+   every ~7-12 s, capture to follow) -> ship landing -> diagnostics ->
+   tutorial gameplay with full control.
+3. Locomotion VERIFIED (visual oracle): stick up 3 s -> camera orbit + world
+   translation (RMSE ~20%, vs ~1-2% pulsing-UI noise). RAM-symbol assertions
+   still pending a decomp build — pixel-oracle only until then.
+4. Save fixture lives at `runtime/dolphin-agent/GC/USA/Card A/*.gci`
+   (gitignored, persists across sessions).
+
+## BLOCKERS for reaching Day-1 gameplay (open, as of 2026-10-09)
+1. ~~No GC memory card~~ RESOLVED — see above.
+2. **No position symbols**: `pikmin2UP.MAP` extracts as 0 bytes. Locomotion
+   RAM assertions need `projectPiki/pikmin2` (gpve01) addresses or
+   decomp-built telemetry. Do not claim movement from pixel-diff alone —
+   the health-warning/attract screens pulse and produce false deltas.
+
+## Do NOT
+- Blind-cycle Yes/No memory-card dialogs hoping to land in-game: capture,
+  read the actual text, then one input. If a dialog is up 3x in a row, stop
+  and fix the underlying state (save file, timing) rather than re-pressing.
+- Run a session with no plan for the next assertion; that wastes the owner's
+  screen and their patience.
+
 ## Evidence discipline
 - Screenshots live under `reports/runs/...` (gitignored binaries; commit
   conclusions as ADRs, small JPEGs only with intent).
@@ -53,6 +86,5 @@ after ~5 s before reacting.
 - Negative results (wrong mapping, stuck dialog) belong in ADRs too.
 
 ## Open questions (update this skill when answered)
-- Exact button(s) to skip Day-1 intro cutscenes.
-- Locomotion assertion via RAM (needs symbols: `pikmin2UP.MAP` is a 0-byte
-  stub; use projectPiki decomp addresses for GPVE01 instead).
+- RAM position/symbol addresses (needs projectPiki decomp build).
+- Button(s) that skip story cutscenes wholesale vs per-line A.
